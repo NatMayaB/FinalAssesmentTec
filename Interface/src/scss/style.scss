@@ -1,0 +1,48 @@
+@import "variables";
+// Import styles
+@import "@coreui/coreui/scss/coreui";
+@import "@coreui/chartjs/scss/coreui-chartjs";
+@import "vendors/simplebar";
+@import "theme";
+@import "login";
+
+[data-coreui-theme="dark"] {
+  --cui-primary: #e77d11 !important;
+}
+
+.c-btn-primary, .btn-primary {
+  background-color: var(--cui-primary) !important;
+  border-color: var(--cui-primary) !important;
+}
+a, .c-link, .link-primary {
+  color: var(--cui-primary) !important;
+}
+
+[data-coreui-theme="dark"] .dropdown-menu,
+[data-coreui-theme="dark"] .dropdown-menu .dropdown-item {
+  color: #fff !important;
+  background-color: #23272b !important;
+}
+
+[data-coreui-theme="light"] .dropdown-menu,
+[data-coreui-theme="light"] .dropdown-menu .dropdown-item {
+  color: #000 !important;
+  background-color: #fff !important;
+}
+
+// Highlight selected/hovered dropdown item for both themes
+[data-coreui-theme="dark"] .dropdown-menu .dropdown-item.active,
+[data-coreui-theme="dark"] .dropdown-menu .dropdown-item:active,
+[data-coreui-theme="dark"] .dropdown-menu .dropdown-item:hover {
+  background-color: #e77d11 !important; // Mars orange for dark mode
+  color: #fff !important;
+}
+
+[data-coreui-theme="light"] .dropdown-menu .dropdown-item.active,
+[data-coreui-theme="light"] .dropdown-menu .dropdown-item:active,
+[data-coreui-theme="light"] .dropdown-menu .dropdown-item:hover {
+  background-color: #c1440e !important; // Mars orange for light mode
+  color: #fff !important;
+}
+
+

@@ -1,0 +1,20 @@
+{
+    "clientDataUI": "Interfície de Dades del Client",
+    "welcomeMessage": "Benvingut a la interfície de dades del client de NetMx. Si us plau, ajudeu-nos a introduir les dades a continuació.",
+    "selectOperatingHours": "Seleccionar Horaris d'Obriment",
+    "noAvailableTimes": "No hi ha hores disponibles",
+    "operatingHours": "Horaris d'Obriment",
+    "enterDailyMetrics": "Introduir Mètriques Diàries",
+    "numberOfEmployees": "Nombre d'Empleats",
+    "dailySales": "Vendes Diàries (€)",
+    "employees": "Empleats",
+    "salesPerHour": "Vendes per Hora",
+    "hour": "Hora",
+    "sales": "Vendes (€)",
+    "inBreak": "En Pausa",
+    "enterSales": "Introduir vendes",
+    "submit": "Enviar",
+    "companyLogo": "Logotip de l'Empresa",
+    "privacyMessage": "La vostra privadesa és important per a nosaltres. Aquestes dades no es compartiran amb ningú."
+  }
+  

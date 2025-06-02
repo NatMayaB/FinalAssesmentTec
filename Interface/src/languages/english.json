@@ -1,0 +1,19 @@
+{
+  "clientDataUI": "Client Data UI",
+  "welcomeMessage": "Welcome to the NetMx's client data interface. Please help us by inputting the data below.",
+  "selectOperatingHours": "Select Operating Hours",
+  "noAvailableTimes": "No available times",
+  "operatingHours": "Operating Hours",
+  "enterDailyMetrics": "Enter Daily Metrics",
+  "numberOfEmployees": "Number of Employees",
+  "dailySales": "Daily Sales ($)",
+  "employees": "Employees",
+  "salesPerHour": "Sales Per Hour",
+  "hour": "Hour",
+  "sales": "Sales ($)",
+  "inBreak": "In a Break",
+  "enterSales": "Enter sales",
+  "submit": "Submit",
+  "companyLogo": "Company Logo",
+  "privacyMessage": "Your privacy is important to us. This data will not be shared with anyone."
+}

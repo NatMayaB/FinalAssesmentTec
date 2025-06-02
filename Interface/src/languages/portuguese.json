@@ -1,0 +1,20 @@
+{
+    "clientDataUI": "Interface de Dados do Cliente",
+    "welcomeMessage": "Bem-vindo à interface de dados do cliente da NetMx. Por favor, ajude-nos inserindo os dados abaixo.",
+    "selectOperatingHours": "Selecionar Horários de Funcionamento",
+    "noAvailableTimes": "Nenhum horário disponível",
+    "operatingHours": "Horários de Funcionamento",
+    "enterDailyMetrics": "Inserir Métricas Diárias",
+    "numberOfEmployees": "Número de Funcionários",
+    "dailySales": "Vendas Diárias (€)",
+    "employees": "Funcionários",
+    "salesPerHour": "Vendas por Hora",
+    "hour": "Hora",
+    "sales": "Vendas (€)",
+    "inBreak": "Em Intervalo",
+    "enterSales": "Inserir vendas",
+    "submit": "Enviar",
+    "companyLogo": "Logotipo da Empresa",
+    "privacyMessage": "Sua privacidade é importante para nós. Esses dados não serão compartilhados com ninguém."
+  }
+  
