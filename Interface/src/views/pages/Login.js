@@ -21,6 +21,7 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilLockLocked, cilUser, cilMoon, cilSun, cilContrast } from '@coreui/icons';
+import marsLogo from '../../assets/images/logo.png';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -28,6 +29,7 @@ const Login = () => {
   const { i18n } = useTranslation();
   const [tab, setTab] = useState('login');
   const [loginCredentials, setLoginCredentials] = useState({ email: '', password: '' });
+  const [isSignUp, setIsSignUp] = useState(false);
   const [signupCredentials, setSignupCredentials] = useState({ email: '', password: '', confirmPassword: '' });
   const navigate = useNavigate();
 
@@ -58,7 +60,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-vh-100 d-flex flex-column">
+    <div className="login-mars-light-bg min-vh-100 d-flex flex-column">
       <CHeader position="sticky" className="mb-4 p-0">
         <CContainer className="border-bottom px-4" fluid>
           <CHeaderNav className="ms-auto">
@@ -100,101 +102,72 @@ const Login = () => {
           </CHeaderNav>
         </CContainer>
       </CHeader>
-      <div className="flex-grow-1 d-flex flex-row align-items-center">
-        <CContainer>
-          <CRow className="justify-content-center">
-            <CCol md={6} lg={5} xl={4}>
-              <CCard className="p-4">
-                <CCardBody>
-                  <h1 className="text-center mb-4">{tab === 'login' ? 'Login' : 'Signup'}</h1>
-                  <div className="d-flex mb-4">
-                    <CButton color={tab === 'login' ? 'primary' : 'secondary'} className="flex-fill" onClick={() => setTab('login')}>
-                      Login
-                    </CButton>
-                    <CButton color={tab === 'signup' ? 'primary' : 'secondary'} className="flex-fill" onClick={() => setTab('signup')}>
-                      Signup
-                    </CButton>
-                  </div>
-                  {tab === 'login' ? (
-                    <CForm onSubmit={handleLoginSubmit}>
-                      <CFormLabel htmlFor="loginEmail">Email Address</CFormLabel>
-                      <CFormInput
-                        type="email"
-                        id="loginEmail"
-                        name="email"
-                        value={loginCredentials.email}
-                        onChange={handleLoginChange}
-                        required
-                        className="mb-3"
-                        placeholder="Email Address"
-                      />
-                      <CFormLabel htmlFor="loginPassword">Password</CFormLabel>
-                      <CFormInput
-                        type="password"
-                        id="loginPassword"
-                        name="password"
-                        value={loginCredentials.password}
-                        onChange={handleLoginChange}
-                        required
-                        className="mb-2"
-                        placeholder="Password"
-                      />
-                      <div className="mb-3 text-end">
-                        <CButton color="link" className="p-0">Forgot password?</CButton>
-                      </div>
-                      <CButton color="primary" type="submit" className="w-100 mb-3">Login</CButton>
-                      <div className="text-center">
-                        Not a member?{' '}
-                        <CButton color="link" className="p-0" onClick={() => setTab('signup')}>Signup now</CButton>
-                      </div>
-                    </CForm>
-                  ) : (
-                    <CForm onSubmit={handleSignupSubmit}>
-                      <CFormLabel htmlFor="signupEmail">Email Address</CFormLabel>
-                      <CFormInput
-                        type="email"
-                        id="signupEmail"
-                        name="email"
-                        value={signupCredentials.email}
-                        onChange={handleSignupChange}
-                        required
-                        className="mb-3"
-                        placeholder="Email Address"
-                      />
-                      <CFormLabel htmlFor="signupPassword">Password</CFormLabel>
-                      <CFormInput
-                        type="password"
-                        id="signupPassword"
-                        name="password"
-                        value={signupCredentials.password}
-                        onChange={handleSignupChange}
-                        required
-                        className="mb-3"
-                        placeholder="Password"
-                      />
-                      <CFormLabel htmlFor="signupConfirmPassword">Confirm Password</CFormLabel>
-                      <CFormInput
-                        type="password"
-                        id="signupConfirmPassword"
-                        name="confirmPassword"
-                        value={signupCredentials.confirmPassword}
-                        onChange={handleSignupChange}
-                        required
-                        className="mb-3"
-                        placeholder="Confirm Password"
-                      />
-                      <CButton color="primary" type="submit" className="w-100 mb-3">Signup</CButton>
-                      <div className="text-center">
-                        Already have an account?{' '}
-                        <CButton color="link" className="p-0" onClick={() => setTab('login')}>Login</CButton>
-                      </div>
-                    </CForm>
-                  )}
-                </CCardBody>
-              </CCard>
-            </CCol>
-          </CRow>
-        </CContainer>
+      <div className="mars-brand-bar w-100 d-flex justify-content-center align-items-center">
+        <div className="mars-brand-content d-flex align-items-center">
+          <img src={marsLogo} alt="Mars Logo" className="mars-brand-logo me-2" />
+          <span className="mars-brand-text">Cloud Stripe</span>
+        </div>
+      </div>
+      <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
+        <div className="mars-login-container-light">
+          <form className="mars-login-form-light" onSubmit={isSignUp ? handleSignupSubmit : handleLoginSubmit}>
+            <label htmlFor="loginEmail" className="mars-label-light">Your email</label>
+            <div className="mars-input-icon-group">
+              <span className="mars-input-icon"><CIcon icon={cilUser} /></span>
+              <input
+                type="email"
+                id={isSignUp ? 'signupEmail' : 'loginEmail'}
+                name="email"
+                value={isSignUp ? signupCredentials.email : loginCredentials.email}
+                onChange={isSignUp ? handleSignupChange : handleLoginChange}
+                required
+                className="mars-input-light"
+                placeholder="e.g. elon@tesla.com"
+              />
+            </div>
+            <label htmlFor="loginPassword" className="mars-label-light">Your password</label>
+            <div className="mars-input-icon-group">
+              <span className="mars-input-icon"><CIcon icon={cilLockLocked} /></span>
+              <input
+                type="password"
+                id={isSignUp ? 'signupPassword' : 'loginPassword'}
+                name="password"
+                value={isSignUp ? signupCredentials.password : loginCredentials.password}
+                onChange={isSignUp ? handleSignupChange : handleLoginChange}
+                required
+                className="mars-input-light"
+                placeholder="e.g. ilovemars123"
+              />
+            </div>
+            {isSignUp && (
+              <>
+                <label htmlFor="signupConfirmPassword" className="mars-label-light">Confirm password</label>
+                <div className="mars-input-icon-group">
+                  <span className="mars-input-icon"><CIcon icon={cilLockLocked} /></span>
+                  <input
+                    type="password"
+                    id="signupConfirmPassword"
+                    name="confirmPassword"
+                    value={signupCredentials.confirmPassword}
+                    onChange={handleSignupChange}
+                    required
+                    className="mars-input-light"
+                    placeholder="Repeat your password"
+                  />
+                </div>
+              </>
+            )}
+            <button type="submit" className="mars-login-btn-light">{isSignUp ? 'Sign Up' : 'Login'}</button>
+            <div className="d-flex justify-content-between mt-3">
+              {!isSignUp ? (
+                <a href="#" className="mars-link-light" onClick={e => { e.preventDefault(); setIsSignUp(true); }}>Don't have an account?</a>
+              ) : (
+                <a href="#" className="mars-link-light" onClick={e => { e.preventDefault(); setIsSignUp(false); }}>Already have an account?</a>
+              )}
+              <a href="#" className="mars-link-light">Forgot password?</a>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
