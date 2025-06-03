@@ -43,11 +43,43 @@ const Login = () => {
     setSignupCredentials(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement login logic
-    // navigate('/dashboard');
+  
+    try {
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginCredentials)
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+  
+        // Guardar en localStorage
+        localStorage.setItem("userEmail", data.email);
+        localStorage.setItem("userRole", data.role);
+  
+        alert(`✅ ${data.message}\nBienvenida ${data.email}\nRol: ${data.role}`);
+  
+        // Redirigir por rol
+        if (data.role === 'admin') {
+          navigate('/AdminHistorial');
+        } else {
+          navigate('/UserDashboard');
+        }
+      } else {
+        const error = await response.json();
+        alert("❌ Error: " + error.detail);
+      }
+    } catch (err) {
+      console.error("Error de conexión:", err);
+      alert("❌ Error al conectar con el servidor");
+    }
   };
+  
 
   const handleSignupSubmit = (e) => {
     e.preventDefault();
@@ -173,4 +205,4 @@ const Login = () => {
   );
 };
 
-export default Login; 
+export default Login;
