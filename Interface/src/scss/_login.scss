@@ -65,4 +65,189 @@
       }
     }
   }
-} 
+}
+
+.login-mars-light-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fffbe6 0%, #ffe0b2 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.mars-login-logo-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.mars-login-logo {
+  width: 60px;
+  margin-bottom: 0.5rem;
+}
+
+.mars-login-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+.mars-login-container-light {
+  background: #fff;
+  color: #222;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+[data-coreui-theme="dark"] .mars-login-container-light {
+  background: #23272b;
+  color: #fff;
+}
+
+.mars-login-form-light {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mars-label-light {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #ff6f00;
+  font-weight: 600;
+}
+
+[data-coreui-theme="dark"] .mars-label-light {
+  color: #ffb347;
+}
+
+.mars-input-icon-group {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1.5px solid #ffb347;
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+  padding: 0 0.75rem;
+}
+
+.mars-input-icon {
+  color: #ffb347;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+.mars-input-light {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0.75rem 0;
+  flex: 1;
+  font-size: 1rem;
+  color: #222;
+}
+
+[data-coreui-theme="dark"] .mars-input-icon-group {
+  background: #23272b;
+}
+
+[data-coreui-theme="dark"] .mars-input-light {
+  background: #23272b;
+  color: #fff;
+  border-color: #ffb347;
+}
+
+[data-coreui-theme="dark"] .mars-input-light::placeholder {
+  color: #bbb;
+  opacity: 1;
+}
+
+[data-coreui-theme="dark"] .mars-input-icon {
+  color: #ffb347;
+}
+
+.mars-login-btn-light {
+  background: linear-gradient(90deg, #ff6f00 0%, #ffb347 100%);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 0.9rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(255,111,0,0.10);
+}
+
+.mars-login-btn-light:hover {
+  background: linear-gradient(90deg, #e65100 0%, #ffb347 100%);
+}
+
+.mars-link-light {
+  color: #ff6f00;
+  font-size: 0.98rem;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+[data-coreui-theme="dark"] .mars-link-light {
+  color: #ffb347;
+}
+
+.mars-brand-bar {
+  width: 100%;
+  background: transparent;
+  padding-top: 2.2rem;
+  padding-bottom: 0.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.mars-brand-content {
+  display: flex;
+  align-items: center;
+}
+
+.mars-brand-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin-right: 0.5rem;
+}
+
+.mars-brand-text {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #222;
+  letter-spacing: 0.5px;
+  margin: 0;
+  line-height: 1;
+}
+
+.c-header,
+.c-header * {
+  background: linear-gradient(135deg, #fffbe6 0%, #ffe0b2 100%) !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+[data-coreui-theme="dark"] .c-header,
+[data-coreui-theme="dark"] .c-header *,
+[data-coreui-theme="dark"] .c-header .container,
+[data-coreui-theme="dark"] .c-header .border-bottom,
+[data-coreui-theme="dark"] .c-header .px-4 {
+  background: linear-gradient(135deg, #fffbe6 0%, #ffe0b2 100%) !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
