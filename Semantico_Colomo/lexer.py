@@ -345,9 +345,12 @@ def reconocer():
         print(f"Línea {linea}: Error en la formación de un token:")
         print(contenido)
         print(" " * pos_error + "^")
+        raise Exception(f"Error de token en la línea {linea}: '{lexema}' no es un token válido.")
         return TokenType.ERROR, lexema
     else:
+        raise Exception(f"Error inesperado en el lexer: estado {estado} con lexema '{lexema}'")
         return TokenType.ERROR, ''
+    
     
 #Función nueva para pasar los datos del error al parser 
 def info_error():
