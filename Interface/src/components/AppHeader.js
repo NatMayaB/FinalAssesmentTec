@@ -114,18 +114,7 @@ const AppHeader = () => {
               >
                 Français
               </CDropdownItem>
-              <CDropdownItem
-                active={i18n.language === 'pt'}
-                onClick={() => changeLanguage('pt')}
-              >
-                Português
-              </CDropdownItem>
-              <CDropdownItem
-                active={i18n.language === 'ct'}
-                onClick={() => changeLanguage('ct')}
-              >
-                Català
-              </CDropdownItem>
+              
             </CDropdownMenu>
           </CDropdown>
 
