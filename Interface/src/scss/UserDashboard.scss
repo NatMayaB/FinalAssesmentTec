@@ -1,9 +1,9 @@
 body, .user-ide-layout {
-  background: #fff;
+  background: #fff !important;
 }
 [data-coreui-theme="dark"] body,
 [data-coreui-theme="dark"] .user-ide-layout {
-  background: #23272b;
+  background: #23272b !important;
 }
 
 // Layout principal
@@ -401,4 +401,13 @@ body, .user-ide-layout {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.user-dropdown-header {
+  background: #fff !important;
+  color: #23272b !important;
+}
+[data-coreui-theme="dark"] .user-dropdown-header {
+  background: #23272b !important;
+  color: #fff !important;
 } 
