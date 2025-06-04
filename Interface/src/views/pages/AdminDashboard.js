@@ -1,38 +1,40 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import AppHeader from '../../components/AppHeader';
+import '../../scss/AdminDashboard.scss';
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
-
   return (
-    <div className="admin-dashboard">
-      <h1>Admin Dashboard</h1>
-      <div className="dashboard-content">
-        <div className="dashboard-section">
-          <h2>Quick Actions</h2>
-          <div className="action-buttons">
-            <button onClick={() => navigate('/admin/historial')}>
-              View Historial
-            </button>
-            {/* Add more admin actions here */}
-          </div>
-        </div>
-        
-        <div className="dashboard-section">
-          <h2>Statistics</h2>
-          <div className="stats-container">
-            {/* Add statistics components here */}
-          </div>
-        </div>
-
-        <div className="dashboard-section">
-          <h2>Recent Activity</h2>
-          <div className="activity-list">
-            {/* Add recent activity list here */}
-          </div>
+    <>
+      <AppHeader />
+      <div className="admin-dashboard-layout">
+        <div className="admin-table-container">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Hora de inicio de sesión</th>
+                <th>Input</th>
+                <th>Output</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Ejemplo de fila, reemplazar por datos reales */}
+              <tr>
+                <td>@usuario1</td>
+                <td>10:00 AM</td>
+                <td>print('Hola')</td>
+                <td>Hola</td>
+                <td>
+                  <button className="delete-user-btn">Borrar usuario</button>
+                </td>
+              </tr>
+              {/* Más filas aquí */}
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
