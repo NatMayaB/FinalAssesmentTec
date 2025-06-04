@@ -14,5 +14,14 @@
   "serverError": "Erreur de connexion au serveur",
   "passwordsDontMatch": "Les mots de passe ne correspondent pas",
   "registrationSuccess": "Inscription réussie",
-  "userExists": "L'utilisateur est déjà inscrit"
+  "userExists": "L'utilisateur est déjà inscrit",
+  "input": "Entrée",
+  "output": "Sortie",
+  "writeCodeHere": "Écrivez votre code ici...",
+  "sending": "Envoi en cours...",
+  "send": "Envoyer",
+  "help": "Aide",
+  "close": "Fermer",
+  "helpInfo": "Vous trouverez ici des informations sur l'utilisation de cette vue.",
+  "compilationError": "Erreur lors de la compilation ou de la sauvegarde des données."
 }

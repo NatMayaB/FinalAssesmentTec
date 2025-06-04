@@ -1,9 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import '../../scss/UserDashboard.scss';
 import AppHeader from '../../components/AppHeader';
 
 const UserDashboard = () => {
+  const { t, i18n } = useTranslation();
   const [showHelp, setShowHelp] = useState(false);
+  
+  const [inputCode, setInputCode] = useState('');
+  const [outputCode, setOutputCode] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setOutputCode('');
+    };
+
+    i18n.on('languageChanged', handleLanguageChange);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange);
+    };
+  }, [i18n]);
+
+  const handleSend = async () => {
+    setLoading(true);
+    setOutputCode('');
+  
+    try {
+      // 1. Llamada a la API externa
+      const response = await fetch("https://10.49.12.48:3003/compile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ code: inputCode })
+      });
+  
+      const data = await response.json();
+      const output = data.output || "No output";
+  
+      setOutputCode(output);
+  
+      // 2. Guardar en MongoDB por medio de tu propia API
+      await fetch("http://localhost:8000/save_session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: localStorage.getItem("userEmail"),
+          input_code: inputCode,
+          output_asm: output,
+          success: true
+        })
+      });
+  
+    } catch (error) {
+      console.error("Error:", error);
+      setOutputCode(t("compilationError"));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -13,18 +72,25 @@ const UserDashboard = () => {
         <main className="dashboard-main">
           <section className="panel input-panel">
             <div className="input-panel-header">
-              <h3 className="panel-title">Input</h3>
-              <button className="help-btn" onClick={() => setShowHelp(true)} title="Ayuda">
+              <h3 className="panel-title">{t("input")}</h3>
+              <button className="help-btn" onClick={() => setShowHelp(true)} title={t("help")}>
                 <span role="img" aria-label="help">❓</span>
               </button>
             </div>
-            <textarea className="input-area" placeholder="Escribe tu código aquí..."></textarea>
-            <button className="send-btn">Send</button>
+            <textarea
+              className="input-area"
+              placeholder={t("writeCodeHere")}
+              value={inputCode}
+              onChange={(e) => setInputCode(e.target.value)}
+            />
+            <button className="send-btn" onClick={handleSend} disabled={loading}>
+              {loading ? t("sending") : t("send")}
+            </button>
           </section>
           <section className="panel output-panel">
-            <h3 className="panel-title">Output</h3>
+            <h3 className="panel-title">{t("output")}</h3>
             <div className="output-area" readOnly>
-              {/* Aquí se mostrará el output, el usuario no puede escribir */}
+              <pre>{outputCode}</pre>
             </div>
           </section>
         </main>
@@ -33,9 +99,9 @@ const UserDashboard = () => {
         {showHelp && (
           <div className="modal-overlay" onClick={() => setShowHelp(false)}>
             <div className="help-modal" onClick={e => e.stopPropagation()}>
-              <h3>Ayuda</h3>
-              <p>Aquí puedes poner la información de ayuda para el usuario sobre cómo usar la vista.</p>
-              <button onClick={() => setShowHelp(false)}>Cerrar</button>
+              <h3>{t("help")}</h3>
+              <p>{t("helpInfo")}</p>
+              <button onClick={() => setShowHelp(false)}>{t("close")}</button>
             </div>
           </div>
         )}
