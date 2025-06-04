@@ -14,5 +14,14 @@
   "serverError": "Error al conectar con el servidor",
   "passwordsDontMatch": "Las contraseñas no coinciden",
   "registrationSuccess": "Registro exitoso",
-  "userExists": "El usuario ya está registrado"
+  "userExists": "El usuario ya está registrado",
+  "input": "Entrada",
+  "output": "Salida",
+  "writeCodeHere": "Escribe tu código aquí...",
+  "sending": "Enviando...",
+  "send": "Enviar",
+  "help": "Ayuda",
+  "close": "Cerrar",
+  "helpInfo": "Aquí puedes encontrar información sobre cómo usar esta vista.",
+  "compilationError": "Error al compilar o guardar los datos."
 }

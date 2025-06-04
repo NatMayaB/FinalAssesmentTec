@@ -14,5 +14,14 @@
   "serverError": "Server connection failed",
   "passwordsDontMatch": "Passwords do not match",
   "registrationSuccess": "Registration successful",
-  "userExists": "User already registered"
+  "userExists": "User already registered",
+  "input": "Input",
+  "output": "Output",
+  "writeCodeHere": "Write your code here...",
+  "sending": "Sending...",
+  "send": "Send",
+  "help": "Help",
+  "close": "Close",
+  "helpInfo": "Here you can find information about how to use this view.",
+  "compilationError": "Error compiling or saving data."
 }

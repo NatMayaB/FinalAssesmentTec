@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from pymongo import MongoClient
 from datetime import datetime
 import bcrypt
+from fastapi import Request
 
 # Crear la app
 app = FastAPI()
@@ -30,6 +31,14 @@ class LoginRequest(BaseModel):
 class RegisterRequest(BaseModel):
     email: str
     password: str
+
+# Modelo para sesión de compilación
+class SessionData(BaseModel):
+    email: str
+    input_code: str
+    output_asm: str
+    success: bool = True
+    error_message: str = ""
 
 # Endpoint de login
 @app.post("/login")
@@ -65,3 +74,17 @@ def register(data: RegisterRequest):
 
     users.insert_one(new_user)
     return {"status": "success"}
+
+@app.post("/save_session")
+def save_session(data: SessionData, request: Request):
+    session = {
+        "email": data.email,
+        "start_time": datetime.utcnow(),
+        "input_code": data.input_code,
+        "output_asm": data.output_asm,
+        "success": data.success,
+        "error_message": data.error_message,
+        "compiled_at": datetime.utcnow()
+    }
+    db.sessions.insert_one(session)
+    return {"message": "Sesión guardada correctamente"}
