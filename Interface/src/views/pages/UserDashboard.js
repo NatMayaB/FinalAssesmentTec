@@ -28,22 +28,7 @@ const UserDashboard = () => {
     setOutputCode('');
   
     try {
-      // 1. Llamada a la API externa
-      const response = await fetch("https://10.49.12.48:3003/compile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ code: inputCode })
-      });
-  
-      const data = await response.json();
-      const output = data.output || "No output";
-  
-      setOutputCode(output);
-  
-      // 2. Guardar en MongoDB por medio de tu propia API
-      await fetch("http://localhost:8000/save_session", {
+      const response = await fetch("http://localhost:8000/save_session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -51,10 +36,14 @@ const UserDashboard = () => {
         body: JSON.stringify({
           email: localStorage.getItem("userEmail"),
           input_code: inputCode,
-          output_asm: output,
-          success: true
+          output_asm: "",  // Ya no necesitamos enviar esto
+          success: true,
+          error_message: ""
         })
       });
+
+      const data = await response.json();
+      setOutputCode(data.output);
   
     } catch (error) {
       console.error("Error:", error);
