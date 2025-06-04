@@ -77,14 +77,39 @@ def register(data: RegisterRequest):
 
 @app.post("/save_session")
 def save_session(data: SessionData, request: Request):
+    # Output estático para pruebas
+    static_output = """
+    ; Código ensamblador de ejemplo
+    section .data
+        msg db 'Hello, World!', 0xa
+        len equ $ - msg
+
+    section .text
+        global _start
+
+    _start:
+        mov edx, len
+        mov ecx, msg
+        mov ebx, 1
+        mov eax, 4
+        int 0x80
+
+        mov eax, 1
+        int 0x80
+    """
+
     session = {
         "email": data.email,
         "start_time": datetime.utcnow(),
         "input_code": data.input_code,
-        "output_asm": data.output_asm,
-        "success": data.success,
-        "error_message": data.error_message,
+        "output_asm": static_output,  # Usamos el output estático
+        "success": True,
+        "error_message": "",
         "compiled_at": datetime.utcnow()
     }
     db.sessions.insert_one(session)
-    return {"message": "Sesión guardada correctamente"}
+    return {
+        "status": "success",
+        "output": static_output,
+        "message": "Sesión guardada correctamente"
+    }

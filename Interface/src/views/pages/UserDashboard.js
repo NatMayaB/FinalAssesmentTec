@@ -10,6 +10,7 @@ const UserDashboard = () => {
   const [inputCode, setInputCode] = useState('');
   const [outputCode, setOutputCode] = useState('');
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const handleLanguageChange = () => {
@@ -22,6 +23,10 @@ const UserDashboard = () => {
       i18n.off('languageChanged', handleLanguageChange);
     };
   }, [i18n]);
+
+  useEffect(() => {
+    setCopied(false);
+  }, [outputCode]);
 
   const handleSend = async () => {
     setLoading(true);
@@ -77,9 +82,48 @@ const UserDashboard = () => {
             </button>
           </section>
           <section className="panel output-panel">
-            <h3 className="panel-title">{t("output")}</h3>
+            <div className="output-panel-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <h3 className="panel-title">{t("output")}</h3>
+            </div>
             <div className="output-area" readOnly>
               <pre>{outputCode}</pre>
+            </div>
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "8px" }}>
+              <button
+                className="copy-btn send-btn"
+                title={t("copy")}
+                onClick={() => {
+                  if (outputCode) {
+                    navigator.clipboard.writeText(outputCode);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 1500);
+                  }
+                }}
+                disabled={!outputCode}
+                style={{ marginRight: "8px" }}
+              >
+                {copied ? t("copied") : t("copy")}
+              </button>
+              <button
+                className="download-btn send-btn"
+                title={t("download")}
+                onClick={() => {
+                  if (outputCode) {
+                    const blob = new Blob([outputCode], { type: "text/plain" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "output.asm";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                  }
+                }}
+                disabled={!outputCode}
+              >
+                {t("download")}
+              </button>
             </div>
           </section>
         </main>
@@ -99,4 +143,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard; 
+export default UserDashboard;
