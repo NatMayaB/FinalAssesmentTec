@@ -23,5 +23,8 @@
   "help": "Aide",
   "close": "Fermer",
   "helpInfo": "Vous trouverez ici des informations sur l'utilisation de cette vue.",
-  "compilationError": "Erreur lors de la compilation ou de la sauvegarde des données."
+  "compilationError": "Erreur lors de la compilation ou de la sauvegarde des données.",
+  "copy": "Copier",
+  "copied": "Copié",
+  "download": "Télécharger"
 }
