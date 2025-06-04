@@ -1,57 +1,178 @@
 .admin-dashboard-layout {
-  background: #5bc0f7;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px 0;
+  background: #fff;
+}
+[data-coreui-theme="dark"] .admin-dashboard-layout {
+  background: #23272b;
 }
 
 .admin-table-container {
-  background: #6ec6ff;
-  border-radius: 16px;
+  background: #f5f7fa;
+  border-radius: 24px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   padding: 32px;
   width: 90%;
   max-width: 1200px;
+  margin-top: 32px;
+  transition: background 0.3s;
+}
+[data-coreui-theme="dark"] .admin-table-container {
+  background: #181b1f;
 }
 
 .admin-table {
   width: 100%;
   border-collapse: collapse;
-  background: #e3f2fd;
-  border-radius: 12px;
+  background: transparent;
+  border-radius: 18px;
   overflow: hidden;
+  box-shadow: none;
 }
 
-.admin-table th, .admin-table td {
-  padding: 16px 12px;
-  text-align: center;
-  border-bottom: 1px solid #b3e5fc;
+.admin-table thead tr {
+  background: linear-gradient(90deg, #ff6f00 0%, #ffb347 100%);
 }
-
 .admin-table th {
-  background: #039be5;
   color: #fff;
   font-size: 1.1rem;
   font-weight: 600;
+  padding: 20px 12px;
+  border: none;
+  transition: background 0.3s, color 0.3s;
+  text-align: center;
+}
+.admin-table th:first-child {
+  border-top-left-radius: 18px;
+}
+.admin-table th:last-child {
+  border-top-right-radius: 18px;
+}
+[data-coreui-theme="dark"] .admin-table thead tr {
+  background: linear-gradient(90deg, #b85d00 0%, #ff9800 100%);
+}
+[data-coreui-theme="dark"] .admin-table th {
+  color: #fff;
+}
+
+.admin-table tbody tr {
+  background: #eaf6fd;
+  border-radius: 0 0 18px 18px;
+}
+[data-coreui-theme="dark"] .admin-table tbody tr {
+  background: #23272b;
+}
+
+.admin-table td {
+  padding: 20px 12px;
+  text-align: center;
+  font-size: 1.08rem;
+  border: none;
+  transition: background 0.3s, color 0.3s;
 }
 
 .admin-table tr:last-child td {
-  border-bottom: none;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
 }
 
 .delete-user-btn {
-  background: #e53935;
+  background: linear-gradient(90deg, #ff6f00 0%, #ffb347 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.delete-user-btn:hover {
+  background: linear-gradient(90deg, #ffb347 0%, #ff6f00 100%);
+}
+
+.clickable-cell {
+  cursor: pointer;
+  text-decoration: underline dotted;
+  color: #ff6f00;
+  transition: background 0.2s, color 0.2s;
+}
+.clickable-cell:hover {
+  background: #fff3e0;
+  color: #b85d00;
+}
+[data-coreui-theme="dark"] .clickable-cell {
+  color: #ffb347;
+}
+[data-coreui-theme="dark"] .clickable-cell:hover {
+  background: #2c2f34;
+  color: #ff9800;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.admin-modal {
+  background: #fff;
+  color: #23272b;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  min-width: 320px;
+  max-width: 90vw;
+  text-align: center;
+  position: relative;
+}
+[data-coreui-theme="dark"] .admin-modal {
+  background: #23272b;
+  color: #fff;
+}
+.admin-modal h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #ff6f00;
+}
+[data-coreui-theme="dark"] .admin-modal h3 {
+  color: #ffb347;
+}
+.modal-content {
+  background: #f5f7fa;
+  color: #23272b;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  max-height: 300px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 1rem;
+}
+[data-coreui-theme="dark"] .modal-content {
+  background: #181b1f;
+  color: #fff;
+}
+.close-modal-btn {
+  background: linear-gradient(90deg, #ff6f00 0%, #ffb347 100%);
   color: #fff;
   border: none;
   border-radius: 6px;
-  padding: 8px 16px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  font-weight: 500;
   transition: background 0.2s;
 }
-
-.delete-user-btn:hover {
-  background: #b71c1c;
+.close-modal-btn:hover {
+  background: linear-gradient(90deg, #ffb347 0%, #ff6f00 100%);
 }
