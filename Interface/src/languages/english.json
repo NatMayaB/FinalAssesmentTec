@@ -23,5 +23,9 @@
   "help": "Help",
   "close": "Close",
   "helpInfo": "Here you can find information about how to use this view.",
-  "compilationError": "Error compiling or saving data."
+  "compilationError": "Error compiling or saving data.",
+  "copy": "Copy",
+  "copied": "Copied",
+  "download": "Download"
+
 }
