@@ -34,7 +34,7 @@
 }
 
 .admin-table thead tr {
-  background: linear-gradient(90deg, #ff6f00 0%, #ffb347 100%);
+  background: #E26E2F;
 }
 .admin-table th {
   color: #fff;
@@ -52,10 +52,10 @@
   border-top-right-radius: 18px;
 }
 [data-coreui-theme="dark"] .admin-table thead tr {
-  background: linear-gradient(90deg, #b85d00 0%, #ff9800 100%);
+  background: #E26E2F;
 }
 [data-coreui-theme="dark"] .admin-table th {
-  color: #fff;
+  color: #23272b;
 }
 
 .admin-table tbody tr {
@@ -80,7 +80,7 @@
 }
 
 .delete-user-btn {
-  background: linear-gradient(90deg, #ff6f00 0%, #ffb347 100%);
+  background: #E26E2F;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -92,25 +92,25 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 .delete-user-btn:hover {
-  background: linear-gradient(90deg, #ffb347 0%, #ff6f00 100%);
+  background: #b35422;
 }
 
 .clickable-cell {
   cursor: pointer;
   text-decoration: underline dotted;
-  color: #ff6f00;
+  color: #E26E2F;
   transition: background 0.2s, color 0.2s;
 }
 .clickable-cell:hover {
   background: #fff3e0;
-  color: #b85d00;
+  color: #b35422;
 }
 [data-coreui-theme="dark"] .clickable-cell {
-  color: #ffb347;
+  color: #E26E2F;
 }
 [data-coreui-theme="dark"] .clickable-cell:hover {
   background: #2c2f34;
-  color: #ff9800;
+  color: #b35422;
 }
 
 .modal-overlay {
@@ -140,10 +140,10 @@
 .admin-modal h3 {
   margin-top: 0;
   margin-bottom: 1rem;
-  color: #ff6f00;
+  color: #E26E2F;
 }
 [data-coreui-theme="dark"] .admin-modal h3 {
-  color: #ffb347;
+  color: #E26E2F;
 }
 .modal-content {
   background: #f5f7fa;
@@ -163,7 +163,7 @@
   color: #fff;
 }
 .close-modal-btn {
-  background: linear-gradient(90deg, #ff6f00 0%, #ffb347 100%);
+  background: #E26E2F;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -174,7 +174,7 @@
   transition: background 0.2s;
 }
 .close-modal-btn:hover {
-  background: linear-gradient(90deg, #ffb347 0%, #ff6f00 100%);
+  background: #b35422;
 }
 
 .admin-lang-switcher {
