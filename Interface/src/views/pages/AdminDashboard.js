@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import AppHeader from '../../components/AppHeader';
 import '../../scss/AdminDashboard.scss';
@@ -8,6 +8,18 @@ const AdminDashboard = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState('');
   const [modalTitle, setModalTitle] = useState('');
+  const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/admin/sessions")
+      .then((res) => res.json())
+      .then((data) => {
+        setSessions(data.sessions);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
   const handleShowModal = (title, content) => {
     setModalTitle(title);
@@ -26,30 +38,48 @@ const AdminDashboard = () => {
       <AppHeader />
       <div className="admin-dashboard-layout">
         <div className="admin-table-container">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>{t('user') || 'Usuario'}</th>
-                <th>{t('sessionStart') || 'Hora de inicio de sesión'}</th>
-                <th>{t('input') || 'Input'}</th>
-                <th>{t('output') || 'Output'}</th>
-                <th>{t('actions') || 'Acciones'}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Ejemplo de fila, reemplazar por datos reales */}
-              <tr>
-                <td>@usuario1</td>
-                <td>10:00 AM</td>
-                <td className="clickable-cell" onClick={() => handleShowModal(t('input') || 'Input', "print('Hola')\nprint('Otra línea de código')")}>print('Hola')</td>
-                <td className="clickable-cell" onClick={() => handleShowModal(t('output') || 'Output', 'Hola\nResultado de la ejecución...')}>Hola</td>
-                <td>
-                  <button className="delete-user-btn">{t('deleteUser') || 'Borrar usuario'}</button>
-                </td>
-              </tr>
-              {/* Más filas aquí */}
-            </tbody>
-          </table>
+          {loading ? (
+            <div className="loading">Loading...</div>
+          ) : (
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>{t('user') || 'Usuario'}</th>
+                  <th>{t('sessionStart') || 'Hora de inicio de sesión'}</th>
+                  <th>{t('input') || 'Input'}</th>
+                  <th>{t('output') || 'Output'}</th>
+                  <th>{t('actions') || 'Acciones'}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sessions.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.email}</td>
+                    <td>{item.start_time}</td>
+                    <td
+                      className="clickable-cell"
+                      onClick={() => handleShowModal(t('input') || 'Input', item.input_code)}
+                    >
+                      {item.input_code && item.input_code.length > 30
+                        ? item.input_code.substring(0, 30) + '...'
+                        : item.input_code}
+                    </td>
+                    <td
+                      className="clickable-cell"
+                      onClick={() => handleShowModal(t('output') || 'Output', item.output_asm)}
+                    >
+                      {item.output_asm && item.output_asm.length > 30
+                        ? item.output_asm.substring(0, 30) + '...'
+                        : item.output_asm}
+                    </td>
+                    <td>
+                      <button className="delete-user-btn">{t('deleteUser') || 'Borrar usuario'}</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
 
         {/* Modal para mostrar texto completo */}
@@ -67,4 +97,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard; 
+export default AdminDashboard;
