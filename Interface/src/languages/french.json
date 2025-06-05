@@ -35,5 +35,7 @@
   ],
   "user": "Utilisateur",
   "sessionStart": "Début de session",
-  "actions": "Actions"
+  "actions": "Actions",
+  "confirmDeleteUser": "Êtes-vous sûr de vouloir supprimer l'utilisateur {{email}} ?",
+  "deleteUserError": "Impossible de supprimer l'utilisateur"
 }
