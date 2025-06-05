@@ -10,6 +10,7 @@ const AdminDashboard = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [disabledUsers, setDisabledUsers] = useState([]); // Nuevo estado
 
   // Función para cargar sesiones
   const fetchSessions = () => {
@@ -42,6 +43,7 @@ const AdminDashboard = () => {
   // Función para eliminar usuario
   const handleDeleteUser = (email) => {
     if (!window.confirm(t('confirmDeleteUser', { email }) || `¿Seguro que deseas eliminar el usuario ${email}?`)) return;
+    setDisabledUsers((prev) => [...prev, email]); // Deshabilita el botón inmediatamente
     fetch(`http://localhost:8000/admin/users/${encodeURIComponent(email)}`, {
       method: 'DELETE'
     })
@@ -54,6 +56,7 @@ const AdminDashboard = () => {
       })
       .catch(() => {
         alert(t('deleteUserError') || 'No se pudo eliminar el usuario');
+        setDisabledUsers((prev) => prev.filter(e => e !== email)); // Reactiva si hay error
       });
   };
 
@@ -100,6 +103,12 @@ const AdminDashboard = () => {
                       <button
                         className="delete-user-btn"
                         onClick={() => handleDeleteUser(item.email)}
+                        disabled={disabledUsers.includes(item.email)}
+                        style={
+                          disabledUsers.includes(item.email)
+                            ? { opacity: 0.5, cursor: 'not-allowed' }
+                            : {}
+                        }
                       >
                         {t('deleteUser') || 'Borrar usuario'}
                       </button>
