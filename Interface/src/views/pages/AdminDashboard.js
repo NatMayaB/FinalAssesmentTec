@@ -11,7 +11,9 @@ const AdminDashboard = () => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  // Función para cargar sesiones
+  const fetchSessions = () => {
+    setLoading(true);
     fetch("http://localhost:8000/admin/sessions")
       .then((res) => res.json())
       .then((data) => {
@@ -19,6 +21,10 @@ const AdminDashboard = () => {
         setLoading(false);
       })
       .catch(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchSessions();
   }, []);
 
   const handleShowModal = (title, content) => {
@@ -31,6 +37,24 @@ const AdminDashboard = () => {
     setModalOpen(false);
     setModalContent('');
     setModalTitle('');
+  };
+
+  // Función para eliminar usuario
+  const handleDeleteUser = (email) => {
+    if (!window.confirm(`¿Seguro que deseas eliminar el usuario ${email}?`)) return;
+    fetch(`http://localhost:8000/admin/users/${encodeURIComponent(email)}`, {
+      method: 'DELETE'
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Error al eliminar usuario');
+        return res.json();
+      })
+      .then(() => {
+        fetchSessions(); // Refresca la tabla después de borrar
+      })
+      .catch(() => {
+        alert('No se pudo eliminar el usuario');
+      });
   };
 
   return (
@@ -73,7 +97,12 @@ const AdminDashboard = () => {
                         : item.output_asm}
                     </td>
                     <td>
-                      <button className="delete-user-btn">{t('deleteUser') || 'Borrar usuario'}</button>
+                      <button
+                        className="delete-user-btn"
+                        onClick={() => handleDeleteUser(item.email)}
+                      >
+                        {t('deleteUser') || 'Borrar usuario'}
+                      </button>
                     </td>
                   </tr>
                 ))}
