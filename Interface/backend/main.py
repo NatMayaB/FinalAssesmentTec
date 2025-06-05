@@ -155,3 +155,8 @@ def delete_user(email: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return {"status": "success", "message": f"Usuario {email} eliminado correctamente"}
+
+@app.get("/admin/users")
+def get_all_users():
+    users_list = list(users.find({}, {"_id": 0, "email": 1}))
+    return {"users": [u["email"] for u in users_list]}
