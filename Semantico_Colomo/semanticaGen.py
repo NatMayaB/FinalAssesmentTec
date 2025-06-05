@@ -7,7 +7,7 @@ from lexer import *
 from parser import *
 
 current_function_type = None
-semantic_error = False  # Bandera global de error
+semantic_error = False
 #Variables globales para el analizador semantico
 def globales(prog, pos, long):
     global programa
@@ -139,6 +139,7 @@ def errorSemantico(mensaje, linea, nombre=None):
             print(contenido_anterior)
         print(contenido)
         print(" " * posicionError + "^")
+        raise Exception(f"Error semántico: {mensaje} en línea {linea}, nombre: {nombre if nombre else 'N/A'}")
 
 #Función para recorrer el árbol sintáctico en preorden
 def recorrer(nodo):

@@ -7,7 +7,6 @@ from enum import Enum
 from lexer import *
 from globalTypes import *
 parser_error = False  # Bandera global de error
- 
 #Clase para enumerar los tipos de expresiones
 class TipoExpresion(Enum):
     Op = 0
@@ -79,10 +78,12 @@ def errorSintaxis(mensaje):
         print (contenido_anterior)
         pos_error = posicionTokenAnterior - inicioLineaAnterior
         print(" " * pos_error + "^")
+        raise SyntaxError(f"Error de sintaxis en línea {linea}: {mensaje}")
     else: #si el token actual y el anterior están en la misma linea, se usa el contenido actual para mostrar el error 
         print(f"\nLínea {linea}: {mensaje}")
         print(contenido)
         print(" " * pos_error + "^")
+        raise SyntaxError(f"Error de sintaxis en línea {linea}: {mensaje}")
 
         # PANIC MODE: saltar tokens hasta encontrar uno del conjunto de sincronización
     while token not in sync_tokens and token != TokenType.ENDFILE:
