@@ -8,6 +8,7 @@ from fastapi import Request
 import httpx
 from typing import Optional
 from typing import List
+from fastapi import Body
 
 
 # Crear la app
@@ -147,3 +148,10 @@ def get_all_sessions():
     # Trae todas las sesiones de la colección
     sessions = list(db.sessions.find({}, {"_id": 0}))  # Excluye el campo _id para facilidad
     return {"sessions": sessions}
+
+@app.delete("/admin/users/{email}")
+def delete_user(email: str):
+    result = users.delete_one({"email": email})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return {"status": "success", "message": f"Usuario {email} eliminado correctamente"}
