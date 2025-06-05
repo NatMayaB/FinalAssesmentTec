@@ -5,9 +5,13 @@ const AdminHistorial = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: Fetch historial data
-    // This is where you'll implement the data fetching logic
-    setLoading(false);
+    fetch("http://localhost:8000/admin/sessions")
+      .then((res) => res.json())
+      .then((data) => {
+        setHistorialData(data.sessions);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   return (
@@ -26,19 +30,25 @@ const AdminHistorial = () => {
             <table>
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>User</th>
-                  <th>Action</th>
-                  <th>Details</th>
+                  <th>Email</th>
+                  <th>Start Time</th>
+                  <th>Input Code</th>
+                  <th>Output ASM</th>
+                  <th>Success</th>
+                  <th>Error Message</th>
+                  <th>Compiled At</th>
                 </tr>
               </thead>
               <tbody>
                 {historialData.map((item, index) => (
                   <tr key={index}>
-                    <td>{item.date}</td>
-                    <td>{item.user}</td>
-                    <td>{item.action}</td>
-                    <td>{item.details}</td>
+                    <td>{item.email}</td>
+                    <td>{item.start_time}</td>
+                    <td>{item.input_code}</td>
+                    <td>{item.output_asm}</td>
+                    <td>{item.success ? "Sí" : "No"}</td>
+                    <td>{item.error_message || "OK"}</td>
+                    <td>{item.compiled_at}</td>
                   </tr>
                 ))}
               </tbody>
@@ -50,4 +60,4 @@ const AdminHistorial = () => {
   );
 };
 
-export default AdminHistorial; 
+export default AdminHistorial;

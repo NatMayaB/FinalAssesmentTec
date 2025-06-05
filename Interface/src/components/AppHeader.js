@@ -40,6 +40,10 @@ const AppHeader = () => {
   return (
     <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
       <CContainer className="border-bottom px-4" fluid>
+        {/* User avatar dropdown a la izquierda */}
+        <CHeaderNav className="me-auto">
+          <AppHeaderDropdown />
+        </CHeaderNav>
         <CHeaderToggler
           onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
           style={{ marginInlineStart: '-14px' }}
@@ -114,26 +118,13 @@ const AppHeader = () => {
               >
                 Français
               </CDropdownItem>
-              <CDropdownItem
-                active={i18n.language === 'pt'}
-                onClick={() => changeLanguage('pt')}
-              >
-                Português
-              </CDropdownItem>
-              <CDropdownItem
-                active={i18n.language === 'ct'}
-                onClick={() => changeLanguage('ct')}
-              >
-                Català
-              </CDropdownItem>
+              
             </CDropdownMenu>
           </CDropdown>
 
           <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
           </li>
-
-          <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
     </CHeader>

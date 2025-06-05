@@ -1,39 +1,100 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import AppHeader from '../../components/AppHeader';
+import '../../scss/AdminDashboard.scss';
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/admin/sessions")
+      .then((res) => res.json())
+      .then((data) => {
+        setSessions(data.sessions);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const handleShowModal = (title, content) => {
+    setModalTitle(title);
+    setModalContent(content);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setModalContent('');
+    setModalTitle('');
+  };
 
   return (
-    <div className="admin-dashboard">
-      <h1>Admin Dashboard</h1>
-      <div className="dashboard-content">
-        <div className="dashboard-section">
-          <h2>Quick Actions</h2>
-          <div className="action-buttons">
-            <button onClick={() => navigate('/admin/historial')}>
-              View Historial
-            </button>
-            {/* Add more admin actions here */}
-          </div>
-        </div>
-        
-        <div className="dashboard-section">
-          <h2>Statistics</h2>
-          <div className="stats-container">
-            {/* Add statistics components here */}
-          </div>
+    <>
+      <AppHeader />
+      <div className="admin-dashboard-layout">
+        <div className="admin-table-container">
+          {loading ? (
+            <div className="loading">Loading...</div>
+          ) : (
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>{t('user') || 'Usuario'}</th>
+                  <th>{t('sessionStart') || 'Hora de inicio de sesión'}</th>
+                  <th>{t('input') || 'Input'}</th>
+                  <th>{t('output') || 'Output'}</th>
+                  <th>{t('actions') || 'Acciones'}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sessions.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.email}</td>
+                    <td>{item.start_time}</td>
+                    <td
+                      className="clickable-cell"
+                      onClick={() => handleShowModal(t('input') || 'Input', item.input_code)}
+                    >
+                      {item.input_code && item.input_code.length > 30
+                        ? item.input_code.substring(0, 30) + '...'
+                        : item.input_code}
+                    </td>
+                    <td
+                      className="clickable-cell"
+                      onClick={() => handleShowModal(t('output') || 'Output', item.output_asm)}
+                    >
+                      {item.output_asm && item.output_asm.length > 30
+                        ? item.output_asm.substring(0, 30) + '...'
+                        : item.output_asm}
+                    </td>
+                    <td>
+                      <button className="delete-user-btn">{t('deleteUser') || 'Borrar usuario'}</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
 
-        <div className="dashboard-section">
-          <h2>Recent Activity</h2>
-          <div className="activity-list">
-            {/* Add recent activity list here */}
+        {/* Modal para mostrar texto completo */}
+        {modalOpen && (
+          <div className="modal-overlay" onClick={handleCloseModal}>
+            <div className="admin-modal" onClick={e => e.stopPropagation()}>
+              <h3>{modalTitle}</h3>
+              <pre className="modal-content">{modalContent}</pre>
+              <button className="close-modal-btn" onClick={handleCloseModal}>{t('close') || 'Cerrar'}</button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
-export default AdminDashboard; 
+export default AdminDashboard;
