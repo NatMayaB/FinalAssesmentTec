@@ -26,6 +26,11 @@
   "compilationError": "Error compiling or saving data.",
   "copy": "Copy",
   "copied": "Copied",
-  "download": "Download"
-
+  "download": "Download",
+  "helpSteps": [
+    "Insert code in input",
+    "Press the send button",
+    "Your MIPS code will appear in output",
+    "At the bottom you can copy or download the code"
+  ]
 }
