@@ -1,0 +1,44 @@
+
+## Daemon para Instancias locales para load balancing.
+## 3300
+[Unit]
+Description=Fastapi uvicorn on 3300
+After=network.target
+
+[Service]
+User=assessment3 
+WorkingDirectory=/AssesEQ3003/Semantico_Colomo
+ExecStart=/usr/bin/python3 -m uvicorn api:app --host 127.0.0.1 --port 3300
+Restart=always 
+
+[Install]
+WantedBy=multi-user.target 
+ 
+##3301
+[Unit]
+Description=Fastapi uvicorn on 3301
+After=network.target
+
+[Service]
+User=assessment3 
+WorkingDirectory=/AssesEQ3003/Semantico_Colomo
+ExecStart=/usr/bin/python3 -m uvicorn api:app --host 127.0.0.1 --port 3301
+Restart=always 
+
+[Install]
+WantedBy=multi-user.target 
+ 
+##3302
+[Unit]
+Description=Fastapi uvicorn on 3302
+After=network.target
+
+[Service]
+User=assessment3 
+WorkingDirectory=/AssesEQ3003/Semantico_Colomo
+ExecStart=/usr/bin/python3 -m uvicorn api:app --host 127.0.0.1 --port 3302
+Restart=always 
+
+[Install]
+WantedBy=multi-user.target 
+ 

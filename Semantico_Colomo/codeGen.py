@@ -40,16 +40,7 @@ def codeGen(AST) -> str:
     import semanticaGen  # Needed to access tabla_global
 
     # Handle errors by raising exceptions instead of printing
-    if lexer_error:
-        raise Exception("Se detectaron errores léxicos. Generación de código abortada.")
 
-    if parser_error:
-        raise Exception("Se detectaron errores sintácticos. Generación de código abortada.")
-
-    if semantic_error:
-        raise Exception("Se detectaron errores semánticos. Generación de código abortada.")
-
-    # Reset state variables
     global output, temp_count, offsets, offset_actual
     output = []
     temp_count = 0
@@ -94,7 +85,7 @@ def codeGen(AST) -> str:
                 genFun(nodo)
 
     # Join all lines into a single string and return it
-    return "\n".join(output)
+    return output
 
 
 def genFun(nodo, is_main=False):
