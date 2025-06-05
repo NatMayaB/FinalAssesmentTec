@@ -32,7 +32,8 @@ const AppHeaderDropdown = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate('/login');
+    // Optionally: localStorage.removeItem("token");
+    window.location.href = '/#/login';
   };
 
   return (
