@@ -367,10 +367,22 @@ body, .user-ide-layout {
   font-size: 1rem;
   padding: 1rem;
   margin-bottom: 0.5rem;
+  overflow-y: scroll;
+  max-height: 350px;
+  pointer-events: auto;
   user-select: text;
-  pointer-events: none;
+}
+
+.output-area pre {
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
   white-space: pre-wrap;
-  overflow-y: auto;
+  word-break: break-all;
+  pointer-events: auto;
 }
 
 // Responsive
@@ -388,7 +400,7 @@ body, .user-ide-layout {
 // Dark mode
 [data-coreui-theme="dark"] .panel {
   background: #181b1f;
-  color: #fff;
+  color: #ffffff;
 }
 [data-coreui-theme="dark"] .input-area,
 [data-coreui-theme="dark"] .output-area {
@@ -396,6 +408,16 @@ body, .user-ide-layout {
   color: #fff;
   border: 1px solid #31343a;
 }
+// [data-coreui-theme="dark"] .output-area {
+//   background: #23272b;
+//   color: #fff;
+//   border: 1px solid #31343a;
+// }
+// [data-coreui-theme="dark"] .output-area pre {
+//   color: #fff;
+//   background: transparent;
+//   border: none;
+// }
 
 .input-panel-header {
   display: flex;
