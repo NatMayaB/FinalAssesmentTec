@@ -5,9 +5,20 @@ const AdminHistorial = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: Fetch historial data
-    // This is where you'll implement the data fetching logic
-    setLoading(false);
+    fetch("http://localhost:8000/admin/sessions")
+      .then((res) => res.json())
+      .then((data) => {
+        // Ajusta los datos para que coincidan con las columnas de la tabla
+        const mapped = data.sessions.map(session => ({
+          date: session.compiled_at || session.start_time || "",
+          user: session.email || "",
+          action: session.success ? "Compilación exitosa" : "Error",
+          details: session.error_message || "OK"
+        }));
+        setHistorialData(mapped);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   return (
@@ -50,4 +61,4 @@ const AdminHistorial = () => {
   );
 };
 
-export default AdminHistorial; 
+export default AdminHistorial;
