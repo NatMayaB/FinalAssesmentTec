@@ -43,8 +43,10 @@ const AppHeaderDropdown = () => {
         </CAvatar>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0">
-        <CDropdownHeader className="user-dropdown-header">
-          <div style={{ fontSize: '1rem', fontWeight: 600 }}>{userEmail ? userEmail : t('user')}</div>
+        <CDropdownHeader className="user-dropdown-header" style={{ color: 'inherit' }}>
+          <div style={{ fontSize: '1rem', fontWeight: 600 }} className="user-email-dropdown">
+            {userEmail ? userEmail : t('user')}
+          </div>
         </CDropdownHeader>
         <CDropdownDivider />
         <CDropdownItem onClick={handleLogout} style={{ color: '#E26E2F', fontWeight: 600 }}>
