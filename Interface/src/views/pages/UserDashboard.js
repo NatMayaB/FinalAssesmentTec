@@ -152,7 +152,6 @@ const UserDashboard = () => {
               <h3 className="panel-title">{t("output")}</h3>
             </div>
             <div className="output-area" readOnly style={{
-              background: '#f8f9fa',
               borderRadius: '4px',
               padding: '8px',
               fontFamily: 'monospace',
