@@ -26,5 +26,11 @@
   "compilationError": "Error al compilar o guardar los datos.",
   "copy": "Copiar",
   "copied": "Copiado",
-  "download": "Descargar"
+  "download": "Descargar",
+  "helpSteps": [
+    "Inserta código en input",
+    "Pulsa el botón enviar",
+    "Tu código MIPS aparecerá en salida",
+    "En la parte inferior puedes copiar o descargar el código"
+  ]
 }

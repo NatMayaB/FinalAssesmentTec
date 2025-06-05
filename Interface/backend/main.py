@@ -8,6 +8,7 @@ from fastapi import Request
 import httpx
 from typing import Optional
 
+
 # Crear la app
 app = FastAPI()
 
@@ -138,3 +139,4 @@ async def compile_code(data: CompileRequest):
             status_code=500,
             detail=f"Error interno del servidor: {str(e)}"
         )
+
