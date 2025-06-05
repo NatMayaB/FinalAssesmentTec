@@ -41,7 +41,7 @@ const AdminDashboard = () => {
 
   // Función para eliminar usuario
   const handleDeleteUser = (email) => {
-    if (!window.confirm(`¿Seguro que deseas eliminar el usuario ${email}?`)) return;
+    if (!window.confirm(t('confirmDeleteUser', { email }) || `¿Seguro que deseas eliminar el usuario ${email}?`)) return;
     fetch(`http://localhost:8000/admin/users/${encodeURIComponent(email)}`, {
       method: 'DELETE'
     })
@@ -53,7 +53,7 @@ const AdminDashboard = () => {
         fetchSessions(); // Refresca la tabla después de borrar
       })
       .catch(() => {
-        alert('No se pudo eliminar el usuario');
+        alert(t('deleteUserError') || 'No se pudo eliminar el usuario');
       });
   };
 
