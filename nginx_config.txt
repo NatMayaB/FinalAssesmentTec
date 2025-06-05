@@ -1,0 +1,32 @@
+ GNU nano 7.2              /etc/nginx/sites-available/fastapi-3003 *        
+                
+upstream fastapi_backend {
+    server 127.0.0.1:3300;
+    server 127.0.0.1:3301;
+    server 127.0.0.1:3302;
+}
+
+server {
+        listen 3003 ssl;
+        server_name _;
+
+        ssl_certificate PATH;
+        ssl_certificate PATH;
+
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_prefer_server_ciphers on;
+
+        location / {
+                proxy_pass http://fastapi_backend; 
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+
+        }
+}
+
+
+
+
+
