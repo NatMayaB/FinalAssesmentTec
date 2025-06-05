@@ -7,6 +7,7 @@ import bcrypt
 from fastapi import Request
 import httpx
 from typing import Optional
+from typing import List
 
 
 # Crear la app
@@ -140,3 +141,9 @@ async def compile_code(data: CompileRequest):
             detail=f"Error interno del servidor: {str(e)}"
         )
 
+# Endpoint para obtener los detalles de las sesiones de los usuarios
+@app.get("/admin/sessions")
+def get_all_sessions():
+    # Trae todas las sesiones de la colección
+    sessions = list(db.sessions.find({}, {"_id": 0}))  # Excluye el campo _id para facilidad
+    return {"sessions": sessions}
