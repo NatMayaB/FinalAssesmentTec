@@ -23,7 +23,7 @@ app.add_middleware(
 )
 
 # Conexión a MongoDB local
-client = MongoClient("mongodb://localhost:27017")
+client = MongoClient("mongodb://172.16.30.221:27017")
 db = client["compilador"]
 users = db["users"]
 
