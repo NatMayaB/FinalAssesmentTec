@@ -131,11 +131,12 @@ const UserDashboard = () => {
         {/* Paneles principales */}
         <main className="dashboard-main">
           <section className="panel input-panel">
+            <button className="help-btn" onClick={() => setShowHelp(true)} title={t("help")}
+              style={{ position: undefined, top: undefined, right: undefined }}>
+              <span role="img" aria-label="help">❓</span>
+            </button>
             <div className="input-panel-header">
               <h3 className="panel-title">{t("input")}</h3>
-              <button className="help-btn" onClick={() => setShowHelp(true)} title={t("help")}>
-                <span role="img" aria-label="help">❓</span>
-              </button>
             </div>
             <textarea
               className="input-area"
