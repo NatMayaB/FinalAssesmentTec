@@ -26,5 +26,11 @@
   "compilationError": "Erreur lors de la compilation ou de la sauvegarde des données.",
   "copy": "Copier",
   "copied": "Copié",
-  "download": "Télécharger"
+  "download": "Télécharger",
+  "helpSteps": [
+    "Insérer le code dans l'entrée",
+    "Appuyez sur le bouton d'envoi",
+    "Votre code MIPS apparaîtra dans la sortie",
+    "En bas, vous pouvez copier ou télécharger le code"
+  ]
 }

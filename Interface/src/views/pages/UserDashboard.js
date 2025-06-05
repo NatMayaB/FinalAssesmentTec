@@ -133,7 +133,11 @@ const UserDashboard = () => {
           <div className="modal-overlay" onClick={() => setShowHelp(false)}>
             <div className="help-modal" onClick={e => e.stopPropagation()}>
               <h3>{t("help")}</h3>
-              <p>{t("helpInfo")}</p>
+              <ol style={{ textAlign: "left" }}>
+                {t("helpSteps", { returnObjects: true }).map((step, idx) => (
+                  <li key={idx}>{step}</li>
+                ))}
+              </ol>
               <button onClick={() => setShowHelp(false)}>{t("close")}</button>
             </div>
           </div>
