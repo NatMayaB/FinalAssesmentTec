@@ -5,7 +5,9 @@ from pymongo import MongoClient
 from datetime import datetime
 import bcrypt
 from fastapi import Request
-from typing import List
+import httpx
+from typing import Optional
+
 
 # Crear la app
 app = FastAPI()
@@ -40,6 +42,11 @@ class SessionData(BaseModel):
     output_asm: str
     success: bool = True
     error_message: str = ""
+    compiled_at: Optional[str] = None
+
+# Modelo para la compilación
+class CompileRequest(BaseModel):
+    code: str
 
 # Endpoint de login
 @app.post("/login")
@@ -78,46 +85,58 @@ def register(data: RegisterRequest):
 
 @app.post("/save_session")
 def save_session(data: SessionData, request: Request):
-    # Output estático para pruebas
-    static_output = """
-    ; Código ensamblador de ejemplo
-    section .data
-        msg db 'Hello, World!', 0xa
-        len equ $ - msg
-
-    section .text
-        global _start
-
-    _start:
-        mov edx, len
-        mov ecx, msg
-        mov ebx, 1
-        mov eax, 4
-        int 0x80
-
-        mov eax, 1
-        int 0x80
-    """
-
     session = {
         "email": data.email,
         "start_time": datetime.utcnow(),
         "input_code": data.input_code,
-        "output_asm": static_output,  # Usamos el output estático
-        "success": True,
-        "error_message": "",
-        "compiled_at": datetime.utcnow()
+        "output_asm": data.output_asm,
+        "success": data.success,
+        "error_message": data.error_message,
+        "compiled_at": data.compiled_at or datetime.utcnow().isoformat()
     }
     db.sessions.insert_one(session)
     return {
         "status": "success",
-        "output": static_output,
         "message": "Sesión guardada correctamente"
     }
 
-# Endpoint para obtener los detalles de las sesiones de los usuarios
-@app.get("/admin/sessions")
-def get_all_sessions():
-    # Trae todas las sesiones de la colección
-    sessions = list(db.sessions.find({}, {"_id": 0}))  # Excluye el campo _id para facilidad
-    return {"sessions": sessions}
+@app.post("/compile")
+async def compile_code(data: CompileRequest):
+    try:
+        # Limpiar el código: quitar espacios al inicio/fin y poner todo en una sola línea
+        clean_code = data.code.strip().replace('\n', ' ').replace('\r', ' ')
+        print(f"Intentando compilar código: {clean_code[:100]}...")  # Solo mostramos los primeros 100 caracteres
+        async with httpx.AsyncClient(verify=False) as client:
+            try:
+                response = await client.post(
+                    "https://10.49.12.48:3003/compile",
+                    json={"code": clean_code},
+                    timeout=30.0
+                )
+                print(f"Respuesta de la API externa - Status: {response.status_code}")
+                print(f"Respuesta de la API externa - Contenido: {response.text[:200]}...")
+                if response.status_code != 200:
+                    raise HTTPException(
+                        status_code=response.status_code,
+                        detail=f"Error en la API externa: {response.text}"
+                    )
+                return response.json()
+            except httpx.RequestError as e:
+                print(f"Error en la petición HTTP: {str(e)}")
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"Error al conectar con la API externa: {str(e)}"
+                )
+            except httpx.TimeoutException as e:
+                print(f"Timeout en la petición: {str(e)}")
+                raise HTTPException(
+                    status_code=504,
+                    detail="La API externa tardó demasiado en responder"
+                )
+    except Exception as e:
+        print(f"Error inesperado: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error interno del servidor: {str(e)}"
+        )
+
