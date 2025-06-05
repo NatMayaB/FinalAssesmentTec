@@ -35,5 +35,7 @@
   ],
   "user": "User",
   "sessionStart": "Session start",
-  "actions": "Actions"
+  "actions": "Actions",
+  "confirmDeleteUser": "Are you sure you want to delete user {{email}}?",
+  "deleteUserError": "Unable to delete user"
 }
