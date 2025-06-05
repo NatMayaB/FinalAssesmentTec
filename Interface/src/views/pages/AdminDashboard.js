@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import AppHeader from '../../components/AppHeader';
 import '../../scss/AdminDashboard.scss';
 
+const DELETED_USERS_KEY = 'deletedUsers';
+
 const AdminDashboard = () => {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
@@ -10,7 +12,12 @@ const AdminDashboard = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [disabledUsers, setDisabledUsers] = useState([]); // Nuevo estado
+  const [disabledUsers, setDisabledUsers] = useState(() => {
+    // Leer usuarios eliminados de localStorage al cargar
+    const stored = localStorage.getItem(DELETED_USERS_KEY);
+    return stored ? JSON.parse(stored) : [];
+  });
+  const [activeUsers, setActiveUsers] = useState([]);
 
   // Función para cargar sesiones
   const fetchSessions = () => {
@@ -26,7 +33,25 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchSessions();
+    fetch("http://localhost:8000/admin/users")
+      .then(res => res.json())
+      .then(data => setActiveUsers(data.users || []));
   }, []);
+
+  // Limpia disabledUsers de emails que ya no aparecen en la tabla
+  useEffect(() => {
+    const sessionEmails = sessions.map(s => s.email);
+    const filtered = disabledUsers.filter(email => sessionEmails.includes(email));
+    if (filtered.length !== disabledUsers.length) {
+      setDisabledUsers(filtered);
+    }
+    // eslint-disable-next-line
+  }, [sessions]);
+
+  // Actualiza localStorage cuando cambia disabledUsers
+  useEffect(() => {
+    localStorage.setItem(DELETED_USERS_KEY, JSON.stringify(disabledUsers));
+  }, [disabledUsers]);
 
   const handleShowModal = (title, content) => {
     setModalTitle(title);
@@ -43,7 +68,11 @@ const AdminDashboard = () => {
   // Función para eliminar usuario
   const handleDeleteUser = (email) => {
     if (!window.confirm(t('confirmDeleteUser', { email }) || `¿Seguro que deseas eliminar el usuario ${email}?`)) return;
-    setDisabledUsers((prev) => [...prev, email]); // Deshabilita el botón inmediatamente
+    setDisabledUsers((prev) => {
+      const updated = [...prev, email];
+      localStorage.setItem(DELETED_USERS_KEY, JSON.stringify(updated));
+      return updated;
+    });
     fetch(`http://localhost:8000/admin/users/${encodeURIComponent(email)}`, {
       method: 'DELETE'
     })
@@ -56,7 +85,11 @@ const AdminDashboard = () => {
       })
       .catch(() => {
         alert(t('deleteUserError') || 'No se pudo eliminar el usuario');
-        setDisabledUsers((prev) => prev.filter(e => e !== email)); // Reactiva si hay error
+        setDisabledUsers((prev) => {
+          const updated = prev.filter(e => e !== email);
+          localStorage.setItem(DELETED_USERS_KEY, JSON.stringify(updated));
+          return updated;
+        });
       });
   };
 
@@ -79,7 +112,7 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {sessions.map((item, index) => (
+                {sessions.filter(item => activeUsers.includes(item.email)).map((item, index) => (
                   <tr key={index}>
                     <td>{item.email}</td>
                     <td>{item.start_time}</td>
