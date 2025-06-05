@@ -37,5 +37,9 @@
   "sessionStart": "Début de session",
   "actions": "Actions",
   "confirmDeleteUser": "Êtes-vous sûr de vouloir supprimer l'utilisateur {{email}} ?",
-  "deleteUserError": "Impossible de supprimer l'utilisateur"
+  "deleteUserError": "Impossible de supprimer l'utilisateur",
+  "pageNotFoundTitle": "Oops! Page non trouvée",
+  "pageNotFoundMessage1": "La page que vous recherchez n'existe pas ou a été déplacée.",
+  "pageNotFoundMessage2": "Veuillez vérifier l'URL ou retourner à la page d'accueil.",
+  "return": "Retour"
 }

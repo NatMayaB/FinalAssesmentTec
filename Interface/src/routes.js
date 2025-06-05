@@ -60,7 +60,6 @@ const routes = [
   { path: '/login', name: 'Login', element: Login },
   { path: '/admin/dashboard', name: 'Admin Dashboard', element: AdminDashboard },
   { path: '/user/dashboard', name: 'User Dashboard', element: UserDashboard },
-  { path: '/admin/historial', name: 'Admin Historial', element: AdminHistorial },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
