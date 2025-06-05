@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from datetime import datetime
 import bcrypt
 from fastapi import Request
+from typing import List
 
 # Crear la app
 app = FastAPI()
@@ -113,3 +114,10 @@ def save_session(data: SessionData, request: Request):
         "output": static_output,
         "message": "Sesión guardada correctamente"
     }
+
+# Endpoint para obtener los detalles de las sesiones de los usuarios
+@app.get("/admin/sessions")
+def get_all_sessions():
+    # Trae todas las sesiones de la colección
+    sessions = list(db.sessions.find({}, {"_id": 0}))  # Excluye el campo _id para facilidad
+    return {"sessions": sessions}
