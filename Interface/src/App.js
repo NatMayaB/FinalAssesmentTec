@@ -12,7 +12,6 @@ const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 const Login = React.lazy(() => import('./views/pages/Login'))
 const AdminDashboard = React.lazy(() => import('./views/pages/AdminDashboard'))
 const UserDashboard = React.lazy(() => import('./views/pages/UserDashboard'))
-const AdminHistorial = React.lazy(() => import('./views/pages/AdminHistorial'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
@@ -48,8 +47,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/user/dashboard" element={<UserDashboard />} />
-          <Route path="/admin/historial" element={<AdminHistorial />} />
-          <Route path="*" element={<DefaultLayout />} />
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </Suspense>
     </HashRouter>

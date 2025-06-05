@@ -37,5 +37,9 @@
   "sessionStart": "Session start",
   "actions": "Actions",
   "confirmDeleteUser": "Are you sure you want to delete user {{email}}?",
-  "deleteUserError": "Unable to delete user"
+  "deleteUserError": "Unable to delete user",
+  "pageNotFoundTitle": "Oops! Page not found",
+  "pageNotFoundMessage1": "The page you are looking for doesn't exist or has been moved.",
+  "pageNotFoundMessage2": "Please check the URL or return to the home page.",
+  "return": "Return"
 }
