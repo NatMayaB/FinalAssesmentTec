@@ -32,5 +32,8 @@
     "Pulsa el botón enviar",
     "Tu código MIPS aparecerá en salida",
     "En la parte inferior puedes copiar o descargar el código"
-  ]
+  ],
+  "user": "Usuario",
+  "sessionStart": "Inicio de sesión",
+  "actions": "Acciones"
 }
