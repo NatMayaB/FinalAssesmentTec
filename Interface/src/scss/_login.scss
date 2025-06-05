@@ -69,9 +69,13 @@
 
 .login-mars-light-bg {
   min-height: 100vh;
-  background: linear-gradient(135deg, #fffbe6 0%, #ffe0b2 100%);
+  background: #f8f7f6;
   display: flex;
   flex-direction: column;
+}
+
+[data-coreui-theme="dark"] .login-mars-light-bg {
+  background: linear-gradient(135deg, #23272b 0%, #343a40 100%);
 }
 
 .mars-login-logo-title {
@@ -100,10 +104,11 @@
   box-shadow: 0 8px 32px rgba(0,0,0,0.10);
   padding: 2.5rem 2rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 2.5rem;
 }
 
 [data-coreui-theme="dark"] .mars-login-container-light {
@@ -120,12 +125,12 @@
 .mars-label-light {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
-  color: #ff6f00;
+  color: #bf5534;
   font-weight: 600;
 }
 
 [data-coreui-theme="dark"] .mars-label-light {
-  color: #ffb347;
+  color: #bf5534;
 }
 
 .mars-input-icon-group {
@@ -174,7 +179,7 @@
 }
 
 .mars-login-btn-light {
-  background: linear-gradient(90deg, #ff6f00 0%, #ffb347 100%);
+  background: #bf5534;
   color: #fff;
   border: none;
   border-radius: 24px;
@@ -185,15 +190,24 @@
   cursor: pointer;
   transition: background 0.2s;
   width: 100%;
-  box-shadow: 0 2px 8px rgba(255,111,0,0.10);
+  box-shadow: 0 2px 8px rgba(191,85,52,0.10);
 }
 
 .mars-login-btn-light:hover {
-  background: linear-gradient(90deg, #e65100 0%, #ffb347 100%);
+  background: #a94429;
+}
+
+[data-coreui-theme="dark"] .mars-login-btn-light {
+  background: #bf5534;
+  color: #23272b;
+}
+
+[data-coreui-theme="dark"] .mars-login-btn-light:hover {
+  background: #a94429;
 }
 
 .mars-link-light {
-  color: #ff6f00;
+  color: #bf5534;
   font-size: 0.98rem;
   text-decoration: underline;
   cursor: pointer;
@@ -201,7 +215,7 @@
 }
 
 [data-coreui-theme="dark"] .mars-link-light {
-  color: #ffb347;
+  color: #bf5534;
 }
 
 .mars-brand-bar {
@@ -229,11 +243,15 @@
 
 .mars-brand-text {
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #222;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.2px;
   margin: 0;
   line-height: 1;
+}
+
+[data-coreui-theme="dark"] .mars-brand-text {
+  color: #bbb;
 }
 
 .c-header,
