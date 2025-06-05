@@ -461,4 +461,11 @@ body, .user-ide-layout {
 [data-coreui-theme="dark"] .user-dropdown-header {
   background: #23272b !important;
   color: #fff !important;
+}
+
+.user-email-dropdown {
+  color: #23272b;
+}
+[data-coreui-theme="dark"] .user-email-dropdown {
+  color: #fff;
 } 
