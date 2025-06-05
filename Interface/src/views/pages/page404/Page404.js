@@ -4,91 +4,69 @@ import {
   CCol,
   CContainer,
   CRow,
+  CDropdown,
+  CDropdownToggle,
+  CDropdownMenu,
+  CDropdownItem,
+  CAvatar,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilHome } from '@coreui/icons'
-import AppHeader from '../../../components/AppHeader'
+import { cilHome, cilMoon, cilSun, cilContrast, cilUser } from '@coreui/icons'
 import { useColorModes } from '@coreui/react'
 import { useTranslation } from 'react-i18next'
+import '../../../scss/Page404.scss'
+import { AppHeaderDropdown } from '../../../components/header'
 
 const Page404 = () => {
-  const { colorMode } = useColorModes('coreui-free-react-admin-template-theme')
-  const [mode, setMode] = useState(colorMode)
-  const { t } = useTranslation()
-
-  // Forzar re-render cuando cambie el modo
-  useEffect(() => {
-    setMode(colorMode)
-  }, [colorMode])
-
-  // Colores para modo claro y oscuro
-  const isDark = mode === 'dark'
-  const background = isDark
-    ? '#23242c'
-    : 'linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%)'
-  const textColor = isDark ? '#fff' : '#334155'
-  const subTextColor = isDark ? '#e0e7ff' : '#64748b'
-  const shadow404 = isDark ? '0 2px 16px #fff3' : '0 2px 16px #ffd699'
+  const { colorMode, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
+  const { t, i18n } = useTranslation()
 
   return (
-    <div
-      className="min-vh-100"
-      style={{
-        background,
-        transition: 'background 0.3s',
-      }}
-    >
-      <AppHeader />
-      <div
-        className="d-flex flex-column justify-content-center align-items-center"
-        style={{
-          minHeight: 'calc(100vh - 56px)',
-        }}
-      >
+    <div className="page404-container">
+      <header className="dashboard-header" style={{ width: '100vw', left: 0, margin: 0 }}>
+        <div className="header-left">
+          <AppHeaderDropdown />
+        </div>
+        <div className="header-right">
+          <CDropdown variant="nav-item" placement="bottom-end">
+            <CDropdownToggle caret={false}>
+              {colorMode === 'dark' ? (
+                <CIcon icon={cilMoon} size="lg" />
+              ) : colorMode === 'auto' ? (
+                <CIcon icon={cilContrast} size="lg" />
+              ) : (
+                <CIcon icon={cilSun} size="lg" />
+              )}
+            </CDropdownToggle>
+            <CDropdownMenu>
+              <CDropdownItem active={colorMode === 'light'} onClick={() => setColorMode('light')}><CIcon className="me-2" icon={cilSun} size="lg" /> Light</CDropdownItem>
+              <CDropdownItem active={colorMode === 'dark'} onClick={() => setColorMode('dark')}><CIcon className="me-2" icon={cilMoon} size="lg" /> Dark</CDropdownItem>
+              <CDropdownItem active={colorMode === 'auto'} onClick={() => setColorMode('auto')}><CIcon className="me-2" icon={cilContrast} size="lg" /> Auto</CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+          <CDropdown variant="nav-item" placement="bottom-end">
+            <CDropdownToggle caret={false}>🌐</CDropdownToggle>
+            <CDropdownMenu>
+              <CDropdownItem active={i18n.language === 'en'} onClick={() => i18n.changeLanguage('en')}>English</CDropdownItem>
+              <CDropdownItem active={i18n.language === 'es'} onClick={() => i18n.changeLanguage('es')}>Español</CDropdownItem>
+              <CDropdownItem active={i18n.language === 'fr'} onClick={() => i18n.changeLanguage('fr')}>Français</CDropdownItem>
+            </CDropdownMenu>
+          </CDropdown>
+        </div>
+      </header>
+      <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 56px)' }}>
         <div className="text-center">
-          <div
-            style={{
-              fontSize: '8rem',
-              fontWeight: 'bold',
-              color: '#ff8800',
-              textShadow: shadow404,
-              letterSpacing: '0.1em',
-              animation: 'bounce404 1.5s infinite alternate',
-            }}
-          >
-            404
-          </div>
-          <h2 className="mt-4 mb-2" style={{ color: textColor, fontWeight: 700 }}>
-            {t('pageNotFoundTitle')}
-          </h2>
-          <p className="mb-4" style={{ color: subTextColor, fontSize: '1.2rem' }}>
+          <div className="page404-title">404</div>
+          <h2 className="page404-message">{t('pageNotFoundTitle')}</h2>
+          <p className="page404-description">
             {t('pageNotFoundMessage1')}<br />
             {t('pageNotFoundMessage2')}
           </p>
-          <CButton
-            color="primary"
-            size="lg"
-            href="#/login"
-            style={{
-              fontWeight: 600,
-              padding: '0.75rem 2rem',
-              borderRadius: '2rem',
-              boxShadow: shadow404,
-              '--cui-btn-color': isDark ? '#fff' : '#23242c',
-            }}
-          >
+          <button className="page404-btn" onClick={() => window.location.href = '#/login'}>
             <CIcon icon={cilHome} className="me-2" />
             {t('return')}
-          </CButton>
+          </button>
         </div>
-        <style>
-          {`
-            @keyframes bounce404 {
-              0% { transform: translateY(0); }
-              100% { transform: translateY(-20px); }
-            }
-          `}
-        </style>
       </div>
     </div>
   )
