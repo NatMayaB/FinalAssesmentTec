@@ -8,12 +8,8 @@ const Typography = React.lazy(() => import('./views/theme/typography/Typography'
 const Login = React.lazy(() => import('./views/pages/Login'))
 const AdminDashboard = React.lazy(() => import('./views/pages/AdminDashboard'))
 const UserDashboard = React.lazy(() => import('./views/pages/UserDashboard'))
-const AdminHistorial = React.lazy(() => import('./views/pages/AdminHistorial'))
 
 // Base
-
-const Cards = React.lazy(() => import('./views/base/cards/Cards'))
-const Carousels = React.lazy(() => import('./views/base/carousels/Carousels'))
 const Collapses = React.lazy(() => import('./views/base/collapses/Collapses'))
 const ListGroups = React.lazy(() => import('./views/base/list-groups/ListGroups'))
 const Navs = React.lazy(() => import('./views/base/navs/Navs'))
@@ -63,9 +59,7 @@ const routes = [
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
-  { path: '/base', name: 'Base', element: Cards, exact: true },
-  { path: '/base/cards', name: 'Cards', element: Cards },
-  { path: '/base/carousels', name: 'Carousel', element: Carousels },
+  { path: '/base', name: 'Base', element: Collapses, exact: true },
   { path: '/base/collapses', name: 'Collapse', element: Collapses },
   { path: '/base/list-groups', name: 'List Groups', element: ListGroups },
   { path: '/base/navs', name: 'Navs', element: Navs },
