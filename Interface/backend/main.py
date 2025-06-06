@@ -144,7 +144,7 @@ async def compile_code(data: CompileRequest, user=Depends(get_current_user)):
         async with httpx.AsyncClient(verify=False) as client:
             try:
                 response = await client.post(
-                    "https://10.49.12.48:3003/compile",
+                    "http://10.49.12.48:3003/compile",
                     json={"code": clean_code},
                     timeout=30.0
                 )
