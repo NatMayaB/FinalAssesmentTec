@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import '../../scss/UserDashboard.scss';
 import AppHeader from '../../components/AppHeader';
 
 const UserDashboard = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [showHelp, setShowHelp] = useState(false);
   
   const [inputCode, setInputCode] = useState('');
@@ -28,17 +30,31 @@ const UserDashboard = () => {
     setCopied(false);
   }, [outputCode]);
 
+  useEffect(() => {
+    // Redirect if not logged in
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
   const handleSend = async () => {
     setLoading(true);
     setOutputCode('');
-  
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
     try {
       // 1. Llamada a nuestra API que actúa como proxy
       console.log("Enviando código para compilar...");
       const compileResponse = await fetch("http://localhost:8000/compile", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({ code: inputCode })
       });
@@ -46,6 +62,11 @@ const UserDashboard = () => {
       const responseData = await compileResponse.json().catch(() => ({}));
       
       if (!compileResponse.ok) {
+        // Si el error es de autenticación, no intentes guardar la sesión y redirige
+        if (compileResponse.status === 401 || compileResponse.status === 403) {
+          navigate('/login');
+          return;
+        }
         throw new Error(responseData.detail || `Error en la compilación: ${compileResponse.status}`);
       }
 
@@ -64,7 +85,8 @@ const UserDashboard = () => {
       const saveResponse = await fetch("http://localhost:8000/save_session", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
           email: localStorage.getItem("userEmail"),
@@ -85,9 +107,7 @@ const UserDashboard = () => {
   
     } catch (error) {
       console.error("Error detallado:", error);
-      // Si el error tiene un detail (mensaje del backend), úsalo como output
       let errorMessage = error.message || t("compilationError");
-      // Extraer el detail si viene en formato: ...{"detail":"mensaje"}
       const match = errorMessage.match(/\{"detail":"([^"]+)"\}/);
       if (match) {
         errorMessage = match[1];
@@ -96,17 +116,26 @@ const UserDashboard = () => {
       
       // Guardar el error en la base de datos como output_asm
       try {
+        // Si el error es de autenticación, no intentes guardar la sesión y redirige
+        if (
+          error.message &&
+          (error.message.includes("401") || error.message.includes("403"))
+        ) {
+          navigate('/login');
+          return;
+        }
         console.log("Intentando guardar el error en la base de datos...");
         const compiledAt = new Date().toISOString();
         const errorResponse = await fetch("http://localhost:8000/save_session", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
           body: JSON.stringify({
             email: localStorage.getItem("userEmail"),
             input_code: inputCode,
-            output_asm: errorMessage, // Guardar el mensaje de error como output
+            output_asm: errorMessage,
             success: false,
             error_message: errorMessage,
             compiled_at: compiledAt

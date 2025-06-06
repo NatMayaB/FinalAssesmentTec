@@ -48,6 +48,7 @@ const Login = () => {
         const data = await response.json();
         localStorage.setItem("userEmail", data.email);
         localStorage.setItem("userRole", data.role);
+        localStorage.setItem("token", data.token); // Store JWT
         if (data.role === 'admin') {
           navigate('/Admin/Dashboard');
         } else {
