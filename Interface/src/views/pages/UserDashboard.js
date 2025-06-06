@@ -50,7 +50,7 @@ const UserDashboard = () => {
     try {
       // 1. Llamada a nuestra API que actúa como proxy
       console.log("Enviando código para compilar...");
-      const compileResponse = await fetch("http://172.16.30.189:8000/compile", {
+      const compileResponse = await fetch("https://172.16.30.189/compile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +82,7 @@ const UserDashboard = () => {
       // 2. Guardar en nuestra base de datos
       console.log("Guardando sesión en la base de datos...");
       const compiledAt = new Date().toISOString();
-      const saveResponse = await fetch("http://172.16.30.189:8000/save_session", {
+      const saveResponse = await fetch("https://172.16.30.189/save_session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +126,7 @@ const UserDashboard = () => {
         }
         console.log("Intentando guardar el error en la base de datos...");
         const compiledAt = new Date().toISOString();
-        const errorResponse = await fetch("http://172.16.30.189:8000/save_session", {
+        const errorResponse = await fetch("https://172.16.30.189/save_session", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
