@@ -9,8 +9,6 @@ import httpx
 from typing import Optional
 from typing import List
 from fastapi import Body
-from jose import JWTError, jwt
-from fastapi import Depends, Header
 
 
 # Crear la app
@@ -52,33 +50,6 @@ class SessionData(BaseModel):
 class CompileRequest(BaseModel):
     code: str
 
-SECRET_KEY = "k8n2Jw7lQw6v1k9n2Jw7lQw6v1k9n2Jw7lQw6v1k9n2Jw7lQw6v1k9n2Jw7lQw6v1k9"  # Change this to a secure random value!
-ALGORITHM = "HS256"
-
-def create_access_token(data: dict, expires_delta=None):
-    from datetime import timedelta
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(hours=8)
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
-def verify_token(token: str):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Token inválido o expirado")
-
-def get_current_user(authorization: str = Header(...)):
-    if not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Token no proporcionado")
-    token = authorization.split(" ")[1]
-    payload = verify_token(token)
-    return payload
-
 # Endpoint de login
 @app.post("/login")
 def login(data: LoginRequest):
@@ -89,14 +60,10 @@ def login(data: LoginRequest):
     if not bcrypt.checkpw(data.password.encode(), user["password_hash"].encode()):
         raise HTTPException(status_code=401, detail="Contraseña incorrecta")
 
-    # Crear token JWT
-    token = create_access_token({"email": user["email"], "role": user.get("role", "user")})
-
     return {
         "message": "Login exitoso",
         "email": user["email"],
-        "role": user.get("role", "user"),
-        "token": token
+        "role": user.get("role", "user")
     }
 
 # Endpoint de registro
@@ -119,8 +86,7 @@ def register(data: RegisterRequest):
     return {"status": "success"}
 
 @app.post("/save_session")
-def save_session(data: SessionData, request: Request, user=Depends(get_current_user)):
-    # user is the decoded JWT payload
+def save_session(data: SessionData, request: Request):
     session = {
         "email": data.email,
         "start_time": datetime.utcnow(),
@@ -137,7 +103,7 @@ def save_session(data: SessionData, request: Request, user=Depends(get_current_u
     }
 
 @app.post("/compile")
-async def compile_code(data: CompileRequest, user=Depends(get_current_user)):
+async def compile_code(data: CompileRequest):
     try:
         # Limpiar el código: quitar espacios al inicio/fin y poner todo en una sola línea
         clean_code = data.code.strip().replace('\n', ' ').replace('\r', ' ')
@@ -178,25 +144,19 @@ async def compile_code(data: CompileRequest, user=Depends(get_current_user)):
 
 # Endpoint para obtener los detalles de las sesiones de los usuarios
 @app.get("/admin/sessions")
-def get_all_sessions(user=Depends(get_current_user)):
-    if user.get("role") != "admin":
-        raise HTTPException(status_code=403, detail="No autorizado")
+def get_all_sessions():
     # Trae todas las sesiones de la colección
     sessions = list(db.sessions.find({}, {"_id": 0}))  # Excluye el campo _id para facilidad
     return {"sessions": sessions}
 
 @app.delete("/admin/users/{email}")
-def delete_user(email: str, user=Depends(get_current_user)):
-    if user.get("role") != "admin":
-        raise HTTPException(status_code=403, detail="No autorizado")
+def delete_user(email: str):
     result = users.delete_one({"email": email})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return {"status": "success", "message": f"Usuario {email} eliminado correctamente"}
 
 @app.get("/admin/users")
-def get_all_users(user=Depends(get_current_user)):
-    if user.get("role") != "admin":
-        raise HTTPException(status_code=403, detail="No autorizado")
+def get_all_users():
     users_list = list(users.find({}, {"_id": 0, "email": 1}))
     return {"users": [u["email"] for u in users_list]}

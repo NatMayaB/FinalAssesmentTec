@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import '../../scss/UserDashboard.scss';
 import AppHeader from '../../components/AppHeader';
 
 const UserDashboard = () => {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
   const [showHelp, setShowHelp] = useState(false);
   
   const [inputCode, setInputCode] = useState('');
@@ -30,31 +28,17 @@ const UserDashboard = () => {
     setCopied(false);
   }, [outputCode]);
 
-  useEffect(() => {
-    // Redirect if not logged in
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate('/login');
-    }
-  }, [navigate]);
-
   const handleSend = async () => {
     setLoading(true);
     setOutputCode('');
   
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        navigate('/login');
-        return;
-      }
       // 1. Llamada a nuestra API que actúa como proxy
       console.log("Enviando código para compilar...");
       const compileResponse = await fetch("http://localhost:8000/compile", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({ code: inputCode })
       });
@@ -80,8 +64,7 @@ const UserDashboard = () => {
       const saveResponse = await fetch("http://localhost:8000/save_session", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           email: localStorage.getItem("userEmail"),
@@ -118,8 +101,7 @@ const UserDashboard = () => {
         const errorResponse = await fetch("http://localhost:8000/save_session", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
             email: localStorage.getItem("userEmail"),

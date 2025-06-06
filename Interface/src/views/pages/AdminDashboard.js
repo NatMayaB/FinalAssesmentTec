@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import AppHeader from '../../components/AppHeader';
-import { useNavigate } from 'react-router-dom';
 import '../../scss/AdminDashboard.scss';
 
 const DELETED_USERS_KEY = 'deletedUsers';
@@ -19,28 +18,12 @@ const AdminDashboard = () => {
     return stored ? JSON.parse(stored) : [];
   });
   const [activeUsers, setActiveUsers] = useState([]);
-  const navigate = useNavigate();
 
   // Función para cargar sesiones
   const fetchSessions = () => {
     setLoading(true);
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-    fetch("http://localhost:8000/admin/sessions", {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    })
-      .then((res) => {
-        if (res.status === 401 || res.status === 403) {
-          navigate('/login');
-          return { sessions: [] };
-        }
-        return res.json();
-      })
+    fetch("http://localhost:8000/admin/sessions")
+      .then((res) => res.json())
       .then((data) => {
         setSessions(data.sessions);
         setLoading(false);
@@ -49,26 +32,11 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate('/login');
-      return;
-    }
     fetchSessions();
-    fetch("http://localhost:8000/admin/users", {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    })
-      .then(res => {
-        if (res.status === 401 || res.status === 403) {
-          navigate('/login');
-          return { users: [] };
-        }
-        return res.json();
-      })
+    fetch("http://localhost:8000/admin/users")
+      .then(res => res.json())
       .then(data => setActiveUsers(data.users || []));
-  }, [navigate]);
+  }, []);
 
   // Limpia disabledUsers de emails que ya no aparecen en la tabla
   useEffect(() => {
@@ -100,21 +68,13 @@ const AdminDashboard = () => {
   // Función para eliminar usuario
   const handleDeleteUser = (email) => {
     if (!window.confirm(t('confirmDeleteUser', { email }) || `¿Seguro que deseas eliminar el usuario ${email}?`)) return;
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate('/login');
-      return;
-    }
     setDisabledUsers((prev) => {
       const updated = [...prev, email];
       localStorage.setItem(DELETED_USERS_KEY, JSON.stringify(updated));
       return updated;
     });
     fetch(`http://localhost:8000/admin/users/${encodeURIComponent(email)}`, {
-      method: 'DELETE',
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
+      method: 'DELETE'
     })
       .then(res => {
         if (!res.ok) throw new Error('Error al eliminar usuario');
