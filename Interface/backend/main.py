@@ -26,7 +26,7 @@ app.add_middleware(
 )
 
 # Conexión a MongoDB local
-client = MongoClient("mongodb://172.16.30.221:27017")
+client = MongoClient("mongodb://localhost:27017")
 db = client["compilador"]
 users = db["users"]
 
@@ -144,7 +144,7 @@ async def compile_code(data: CompileRequest, user=Depends(get_current_user)):
         async with httpx.AsyncClient(verify=False) as client:
             try:
                 response = await client.post(
-                    "http://172.16.30.3:3003/compile",
+                    "http://localhost:3003/compile",
                     json={"code": clean_code},
                     timeout=30.0
                 )
