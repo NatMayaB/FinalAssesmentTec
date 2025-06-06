@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+pydantic
+pymongo
+bcrypt
+httpx
+python-jose
