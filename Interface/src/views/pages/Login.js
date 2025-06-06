@@ -163,7 +163,7 @@ const Login = () => {
               ) : (
                 <a href="#" className="mars-link-light" onClick={e => { e.preventDefault(); setIsSignUp(false); setErrorMessage(''); }}>{t("alreadyHaveAccount")}</a>
               )}
-              <a href="#" className="mars-link-light">{t("forgotPassword")}</a>
+              
             </div>
           </form>
         </div>
