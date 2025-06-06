@@ -1,0 +1,108 @@
+// Estilos para la página 404
+.page404-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+}
+[data-coreui-theme="dark"] .page404-container {
+  background: #23272b;
+}
+
+.page404-title {
+  font-size: 7rem;
+  font-weight: 700;
+  color: #bf5534;
+  text-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  margin-bottom: 1.5rem;
+}
+
+.page404-message {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #23272b;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+[data-coreui-theme="dark"] .page404-message {
+  color: #fff;
+}
+
+.page404-description {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+[data-coreui-theme="dark"] .page404-description {
+  color: #bbb;
+}
+
+.page404-btn {
+  background: #bf5534;
+  color: #fff;
+  border: none;
+  border-radius: 32px;
+  padding: 1rem 3.5rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+[data-coreui-theme="light"] .page404-btn {
+  color: #23272b;
+}
+.page404-btn:hover {
+  background: #a94429;
+}
+
+.page404-container .c-header {
+  width: 100vw;
+  left: 0;
+  margin-left: 0;
+  border-bottom: 1px solid #444 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.page404-container .c-container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100vw !important;
+  margin: 0 !important;
+}
+
+.dashboard-header {
+  width: 100vw;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0 2rem;
+  background: #23272b;
+  border-bottom: 1px solid #31343a;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+  top: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+[data-coreui-theme="light"] .dashboard-header {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+} 
+
