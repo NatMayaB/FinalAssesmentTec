@@ -41,5 +41,6 @@
   "pageNotFoundTitle": "Oops! Page not found",
   "pageNotFoundMessage1": "The page you are looking for doesn't exist or has been moved.",
   "pageNotFoundMessage2": "Please check the URL or return to the home page.",
-  "return": "Return"
+  "return": "Return",
+  "deleteUser": "Delete user"
 }

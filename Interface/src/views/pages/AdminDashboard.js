@@ -108,7 +108,7 @@ const AdminDashboard = () => {
                   <th>{t('sessionStart') || 'Hora de inicio de sesión'}</th>
                   <th>{t('input') || 'Input'}</th>
                   <th>{t('output') || 'Output'}</th>
-                  <th>{t('actions') || 'Acciones'}</th>
+                  <th>{t('actions') || 'Actions'}</th>
                 </tr>
               </thead>
               <tbody>
@@ -143,7 +143,7 @@ const AdminDashboard = () => {
                             : {}
                         }
                       >
-                        {t('deleteUser') || 'Borrar usuario'}
+                        {t('deleteUser') || 'Delete user'}
                       </button>
                     </td>
                   </tr>
