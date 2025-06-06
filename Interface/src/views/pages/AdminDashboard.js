@@ -6,7 +6,7 @@ import '../../scss/AdminDashboard.scss';
 
 const DELETED_USERS_KEY = 'deletedUsers';
 const POLLING_INTERVAL = 5000; // 5 segundos
-const BACKEND_URL = 'http://localhost:8000';
+const BACKEND_URL = 'http://192.168.200.156:8000';
 
 const AdminDashboard = () => {
   const { t } = useTranslation();

@@ -16,7 +16,7 @@
     "build": "vite build",
     "lint": "eslint \"src/**/*.js\"",
     "serve": "vite preview",
-    "start": "vite"
+    "start": "vite --host 192.168.200.156"
   },
   "dependencies": {
     "@coreui/chartjs": "^4.0.0",
