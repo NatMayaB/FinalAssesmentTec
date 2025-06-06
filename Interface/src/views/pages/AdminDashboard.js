@@ -29,7 +29,7 @@ const AdminDashboard = () => {
       navigate('/login');
       return;
     }
-    fetch("https://172.16.30.189/admin/sessions", {
+    fetch("http://172.16.30.189/admin/sessions", {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -55,7 +55,7 @@ const AdminDashboard = () => {
       return;
     }
     fetchSessions();
-    fetch("https://172.16.30.189/admin/users", {
+    fetch("http://172.16.30.189/admin/users", {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -110,7 +110,7 @@ const AdminDashboard = () => {
       localStorage.setItem(DELETED_USERS_KEY, JSON.stringify(updated));
       return updated;
     });
-    fetch(`https://172.16.30.189/admin/users/${encodeURIComponent(email)}`, {
+    fetch(`http://172.16.30.189/admin/users/${encodeURIComponent(email)}`, {
       method: 'DELETE',
       headers: {
         "Authorization": `Bearer ${token}`
