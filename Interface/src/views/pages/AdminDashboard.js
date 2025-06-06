@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import '../../scss/AdminDashboard.scss';
 
 const DELETED_USERS_KEY = 'deletedUsers';
+const POLLING_INTERVAL = 5000; // 5 segundos
+const BACKEND_URL = 'http://localhost:8000';
 
 const AdminDashboard = () => {
   const { t } = useTranslation();
@@ -23,13 +25,12 @@ const AdminDashboard = () => {
 
   // Función para cargar sesiones
   const fetchSessions = () => {
-    setLoading(true);
     const token = localStorage.getItem("token");
     if (!token) {
       navigate('/login');
       return;
     }
-    fetch("http://172.16.30.189/admin/sessions", {
+    fetch(`${BACKEND_URL}/admin/sessions`, {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -48,14 +49,14 @@ const AdminDashboard = () => {
       .catch(() => setLoading(false));
   };
 
-  useEffect(() => {
+  // Función para cargar usuarios activos
+  const fetchActiveUsers = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate('/login');
       return;
     }
-    fetchSessions();
-    fetch("http://172.16.30.189/admin/users", {
+    fetch(`${BACKEND_URL}/admin/users`, {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -68,7 +69,28 @@ const AdminDashboard = () => {
         return res.json();
       })
       .then(data => setActiveUsers(data.users || []));
+  };
+
+  // Efecto para cargar datos iniciales
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    fetchSessions();
+    fetchActiveUsers();
   }, [navigate]);
+
+  // Efecto para polling de actualizaciones
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchSessions();
+      fetchActiveUsers();
+    }, POLLING_INTERVAL);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   // Limpia disabledUsers de emails que ya no aparecen en la tabla
   useEffect(() => {
@@ -110,7 +132,7 @@ const AdminDashboard = () => {
       localStorage.setItem(DELETED_USERS_KEY, JSON.stringify(updated));
       return updated;
     });
-    fetch(`http://172.16.30.189/admin/users/${encodeURIComponent(email)}`, {
+    fetch(`${BACKEND_URL}/admin/users/${encodeURIComponent(email)}`, {
       method: 'DELETE',
       headers: {
         "Authorization": `Bearer ${token}`
@@ -122,6 +144,7 @@ const AdminDashboard = () => {
       })
       .then(() => {
         fetchSessions(); // Refresca la tabla después de borrar
+        fetchActiveUsers(); // Refresca también la lista de usuarios activos
       })
       .catch(() => {
         alert(t('deleteUserError') || 'No se pudo eliminar el usuario');

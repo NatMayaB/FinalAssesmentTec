@@ -12,21 +12,26 @@ from fastapi import Body
 from jose import JWTError, jwt
 from fastapi import Depends, Header
 
+# Importar módulos de Semántico Colomo
+from Semantico_Colomo.globalTypes import *
+from Semantico_Colomo.parser import *
+from Semantico_Colomo.semanticaGen import *
+from Semantico_Colomo.codeGen import *
 
 # Crear la app
 app = FastAPI()
 
-# Habilitar CORS (ajusta esto si vas a producción)
+# Habilitar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Cambiar a ["http://localhost:3000"] si es necesario
+    allow_origins=["http://localhost:3000"],  # Frontend origin (React default port)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Conexión a MongoDB local
-client = MongoClient("mongodb://172.16.30.221:27017")
+client = MongoClient("mongodb://localhost:27017")
 db = client["compilador"]
 users = db["users"]
 
@@ -79,6 +84,28 @@ def get_current_user(authorization: str = Header(...)):
     payload = verify_token(token)
     return payload
 
+def compile_code(source_code: str) -> str:
+    try:
+        progLong = len(source_code)
+        source_code += '$'
+        posicion = 0
+
+        # Initialize global variables
+        globales(source_code, posicion, progLong)
+
+        # Run parser
+        AST = parser(True)
+
+        # Run semantic analysis
+        semantica(AST, True)
+
+        # Run code generation
+        output_code = codeGen(AST)
+
+        return output_code
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 # Endpoint de login
 @app.post("/login")
 def login(data: LoginRequest):
@@ -119,60 +146,55 @@ def register(data: RegisterRequest):
     return {"status": "success"}
 
 @app.post("/save_session")
-def save_session(data: SessionData, request: Request):
-    session = {
-        "email": data.email,
-        "start_time": datetime.utcnow(),
-        "input_code": data.input_code,
-        "output_asm": data.output_asm,
-        "success": data.success,
-        "error_message": data.error_message,
-        "compiled_at": data.compiled_at or datetime.utcnow().isoformat()
-    }
-    db.sessions.insert_one(session)
-    return {
-        "status": "success",
-        "message": "Sesión guardada correctamente"
-    }
+async def save_session(data: SessionData, user=Depends(get_current_user)):
+    try:
+        # Compilar el código usando Semántico Colomo
+        output_asm = compile_code(data.input_code)
+        
+        session = {
+            "email": data.email,
+            "start_time": datetime.utcnow(),
+            "input_code": data.input_code,
+            "output_asm": output_asm,
+            "success": True,
+            "error_message": "",
+            "compiled_at": data.compiled_at or datetime.utcnow().isoformat()
+        }
+        db.sessions.insert_one(session)
+        return {
+            "status": "success",
+            "message": "Sesión guardada correctamente",
+            "output_asm": output_asm
+        }
+    except Exception as e:
+        # Si hay un error en la compilación, guardar la sesión con el error
+        session = {
+            "email": data.email,
+            "start_time": datetime.utcnow(),
+            "input_code": data.input_code,
+            "output_asm": str(e),
+            "success": False,
+            "error_message": str(e),
+            "compiled_at": data.compiled_at or datetime.utcnow().isoformat()
+        }
+        db.sessions.insert_one(session)
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )
 
 @app.post("/compile")
-async def compile_code(data: CompileRequest, user=Depends(get_current_user)):
+async def compile_code_endpoint(data: CompileRequest, user=Depends(get_current_user)):
     try:
-        # Limpiar el código: quitar espacios al inicio/fin y poner todo en una sola línea
-        clean_code = data.code.strip().replace('\n', ' ').replace('\r', ' ')
-        print(f"Intentando compilar código: {clean_code[:100]}...")  # Solo mostramos los primeros 100 caracteres
-        async with httpx.AsyncClient(verify=False) as client:
-            try:
-                response = await client.post(
-                    "http://172.16.30.3:3003/compile",
-                    json={"code": clean_code},
-                    timeout=30.0
-                )
-                print(f"Respuesta de la API externa - Status: {response.status_code}")
-                print(f"Respuesta de la API externa - Contenido: {response.text[:200]}...")
-                if response.status_code != 200:
-                    raise HTTPException(
-                        status_code=response.status_code,
-                        detail=f"Error en la API externa: {response.text}"
-                    )
-                return response.json()
-            except httpx.RequestError as e:
-                print(f"Error en la petición HTTP: {str(e)}")
-                raise HTTPException(
-                    status_code=500,
-                    detail=f"Error al conectar con la API externa: {str(e)}"
-                )
-            except httpx.TimeoutException as e:
-                print(f"Timeout en la petición: {str(e)}")
-                raise HTTPException(
-                    status_code=504,
-                    detail="La API externa tardó demasiado en responder"
-                )
+        output = compile_code(data.code)
+        return {
+            "compiled_code": output,
+            "success": True
+        }
     except Exception as e:
-        print(f"Error inesperado: {str(e)}")
         raise HTTPException(
-            status_code=500,
-            detail=f"Error interno del servidor: {str(e)}"
+            status_code=400,
+            detail=str(e)
         )
 
 # Endpoint para obtener los detalles de las sesiones de los usuarios

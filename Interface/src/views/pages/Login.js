@@ -38,9 +38,12 @@ const Login = () => {
     e.preventDefault();
     setErrorMessage('');
     try {
-      const response = await fetch(`http://172.16.30.189/login?lang=${i18n.language}`, {
+      const response = await fetch('http://localhost:8000/login', {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
         body: JSON.stringify(loginCredentials)
       });
 
@@ -70,7 +73,7 @@ const Login = () => {
       return;
     }
     try {
-      const response = await fetch("http://172.16.30.189/register", {
+      const response = await fetch("http://localhost:8000/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
