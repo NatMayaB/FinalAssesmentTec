@@ -229,7 +229,7 @@ ip forward-protocol nd
 ip nat inside source static tcp 172.16.30.3 22 10.49.12.48 3000 extendable
 ip nat inside source static tcp 172.16.30.3 3001 10.49.12.48 3001 extendable
 ip nat inside source static tcp 172.16.30.3 3002 10.49.12.48 3002 extendable
-ip nat inside source static tcp 172.16.30.3 3003 10.49.12.48 3003 extendable
+ip nat inside source static tcp 172.16.30.149 80 10.49.12.48 3003 extendable
 ip nat inside source list 30 interface GigabitEthernet0/0/1 overload
 !
 !
